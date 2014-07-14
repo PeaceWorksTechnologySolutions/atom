@@ -24,6 +24,8 @@ class RepositoryEditThemeAction extends sfAction
       'backgroundColor',
       'banner',
       'banner_delete',
+      'watermark',
+      'watermark_delete',
       'htmlSnippet',
       'logo',
       'logo_delete');
@@ -76,6 +78,37 @@ class RepositoryEditThemeAction extends sfAction
           $this->form->setWidget('banner_delete', new sfWidgetFormInputCheckbox);
         }
 
+        break;
+
+      case 'watermark':
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+
+        $this->form->setValidator($name, new sfValidatorFile(array(
+          'max_size' => '262144', // 256K
+          'mime_types' => array('image/png'),
+          // Crop image, it is synchronous but it should be fast
+          'validated_file_class' => 'arRepositoryThemeCropValidatedFile',
+          'path' => $this->resource->getUploadsPath(true),
+          'required' => false)));
+
+        $this->form->setWidget($name, new arWidgetFormInputFileEditable(array(
+          'label' => $this->context->i18n->__('Watermark'),
+          'help' => $this->context->i18n->__('Requirements: PNG format, 256K max. size.<br />Recommended dimensions of %1%x%2%px, it will be cropped if ImageMagick is installed.',
+            array(
+              '%1%' => arRepositoryThemeCropValidatedFile::WATERMARK_MAX_WIDTH,
+              '%2%' => arRepositoryThemeCropValidatedFile::WATERMARK_MAX_HEIGHT)),
+          'file_src' => $this->existsWatermark ? public_path($this->resource->getWatermarkPath()) : false,
+          'edit_mode' => true,
+          'is_image' => true,
+          'with_delete' => $this->existsWatermark)));
+        break;
+
+      case 'watermark_delete':
+        if ($this->existsWatermark)
+        {
+          $this->form->setValidator('watermark_delete', new sfValidatorBoolean);
+          $this->form->setWidget('watermark_delete', new sfWidgetFormInputCheckbox);
+        }
         break;
 
       case 'logo':
@@ -153,6 +186,7 @@ class RepositoryEditThemeAction extends sfAction
     // We are going to need this later, when building the form
     $this->existsLogo = $this->resource->existsLogo();
     $this->existsBanner = $this->resource->existsBanner();
+    $this->existsWatermark = $this->resource->existsWatermark();
 
     $this->form = new sfForm;
 
@@ -191,6 +225,18 @@ class RepositoryEditThemeAction extends sfAction
           // Call save() method found in sfValidatedFile
           // TODO: force conversion to png
           $logo->save($this->resource->getBannerPath(true));
+        }
+
+        // Process watermark and watermark_delete together
+        if (null !== $this->form->getValue('watermark_delete'))
+        {
+          unlink($this->resource->getWatermarkPath(true));
+        }
+        if (null !== $watermark = $this->form->getValue('watermark'))
+        {
+          // Call save() method found in sfValidatedFile
+          // TODO: force conversion to png
+          $watermark->save($this->resource->getWatermarkPath(true));
         }
 
         $this->resource->save();

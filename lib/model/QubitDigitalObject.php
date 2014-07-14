@@ -1178,12 +1178,42 @@ class QubitDigitalObject extends BaseDigitalObject
     // Add watermark to reference image
     if (QubitTerm::REFERENCE_ID == $this->usageId
         && $this->isImage()
-        && is_readable($waterMarkPathName = sfConfig::get('sf_web_dir').'/watermark.png')
-        && is_file($waterMarkPathName))
+       )
     {
-      $filePathName = $this->getAbsolutePath();
-      $command = 'composite -dissolve 15 -tile '.$waterMarkPathName.' '.escapeshellarg($filePathName).' '.escapeshellarg($filePathName);
-      exec($command);
+      // build a list of possible watermarks:
+      // use the repository's watermark is possible
+      // otherwise use the global watermark
+      $watermarks = array();
+      if (isset($this->informationObject))
+      {
+        $infoObject = $this->informationObject;
+      }
+      else if (isset($this->parent))
+      {
+        $infoObject = $this->parent->informationObject;
+      }
+      if (isset($infoObject) && (null !== ($repo = $infoObject->getRepository(array('inherit' => true)))))
+      {
+        $watermarks[] = $repo->getWatermarkPath();
+      }
+      $watermarks[] = '/watermark.png';
+
+      // try each watermark - use the first one that exists.
+      foreach ($watermarks as $watermark) 
+      {
+        $watermark_path = sfConfig::get('sf_web_dir').$watermark;
+        sfContext::getInstance()->getLogger()->warning('checking for ' . $watermark_path);
+        if (is_readable($watermark_path) && is_file($watermark_path)) {
+          sfContext::getInstance()->getLogger()->warning('generating watermark using ' . $watermark_path);
+          $image_path = $this->getAbsolutePath();
+          $command = 'composite -dissolve 15 -tile '.$watermark_path.' '.escapeshellarg($image_path).' '.escapeshellarg($image_path);
+          exec($command, $output, $retval);
+          $output = print_r($output, TRUE);
+          sfContext::getInstance()->getLogger()->warning($output);
+          sfContext::getInstance()->getLogger()->warning($retval);
+          break;
+        }
+      }
     }
 
     // Update search index for related info object

@@ -41,6 +41,15 @@
           </div>
         </div>
 
+        <div class="form-item form-item-watermark">
+          <?php echo $form->watermark->renderLabel() ?>
+          <div>
+            <?php echo $form->watermark->render() ?>
+            <?php echo $form->watermark->renderError() ?>
+            <?php echo $form->getWidget('watermark')->getHelp() ?>
+          </div>
+        </div>
+
       </fieldset>
 
       <fieldset class="collapsible" id="pageContentArea">
