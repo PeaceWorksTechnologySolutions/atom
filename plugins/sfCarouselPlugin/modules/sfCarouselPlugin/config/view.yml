@@ -1,0 +1,9 @@
+
+homeSuccess:
+    javascripts:
+        /plugins/sfCarouselPlugin/js/jquery.carouFredSel-6.2.1-packed.js:
+        /plugins/sfCarouselPlugin/js/sfCarousel.js:
+
+    stylesheets:
+        /plugins/sfCarouselPlugin/css/sfCarouselPlugin.css:
+        

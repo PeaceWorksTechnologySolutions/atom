@@ -1,0 +1,10 @@
+
+# override the default routing for '/'
+sfCarouselPlugin_home:
+  url: /
+  class: QubitResourceRoute
+  param:
+    module: sfCarouselPlugin
+    action: home
+    slug: home
+

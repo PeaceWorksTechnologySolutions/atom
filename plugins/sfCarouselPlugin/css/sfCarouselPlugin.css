@@ -1,0 +1,29 @@
+
+div#carousel_container {
+    position: relative;
+}
+
+div#carousel {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+div#main-column h1 {
+    clear: both;
+}
+
+div.carousel_item {
+    float: left;
+}
+
+div#carousel_left_arrow {
+    position: absolute;
+    top: 40px;
+    left: -50px;
+}
+
+div#carousel_right_arrow {
+    position: absolute;
+    top: 40px;
+    right: -40px;
+}

@@ -38,6 +38,8 @@
 
           <div id="main-column">
 
+            <?php include_slot('before-title') ?>
+
             <?php include_slot('title') ?>
 
             <?php include_slot('before-content') ?>
