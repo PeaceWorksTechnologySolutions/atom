@@ -1,0 +1,63 @@
+
+div#carousel_container {
+    position: relative;
+}
+
+div#carousel {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+div#main-column h1 {
+    clear: both;
+}
+
+div.carousel_item {
+    float: left;
+    padding-right: 10px;
+}
+
+div.carousel_item p.description {
+    text-align: center;
+}
+
+div.carousel_item .carousel_image_container {
+    max-height: 200px;
+    overflow: hidden;
+}
+
+div#carousel_left_arrow,
+div#carousel_right_arrow {
+    width: 7%;
+    padding-top: 25px;
+}
+
+div#carousel_left_arrow {
+    float: left;
+}
+
+div#carousel_right_arrow {
+    float: right;
+    text-align: right;
+}
+
+
+@media only screen 
+and (max-width: 900px)
+{
+div#carousel_left_arrow,
+div#carousel_right_arrow {
+    padding-top: 5px;
+}
+
+}
+
+@media only screen 
+and (max-width: 700px)
+{
+div#carousel_left_arrow,
+div#carousel_right_arrow {
+    padding-top: 0px;
+}
+
+}
