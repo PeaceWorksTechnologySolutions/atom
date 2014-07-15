@@ -18,12 +18,12 @@ div.carousel_item {
 
 div#carousel_left_arrow {
     position: absolute;
-    top: 40px;
+    top: 48px;
     left: -50px;
 }
 
 div#carousel_right_arrow {
     position: absolute;
-    top: 40px;
+    top: 48px;
     right: -40px;
 }
