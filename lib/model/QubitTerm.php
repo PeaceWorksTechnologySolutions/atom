@@ -136,6 +136,9 @@ class QubitTerm extends BaseTerm
     RIGHT_BASIS_STATUTE_ID = 172,
     RIGHT_BASIS_POLICY_ID = 173,
 
+    // Rights act
+    RIGHT_ACT_DISSEMINATE_ID = 305,
+
     // Language note
     LANGUAGE_NOTE_ID = 174,
 

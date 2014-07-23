@@ -2,6 +2,10 @@
 
 <?php echo get_component('informationobject', 'treeView') ?>
 
+<?php if ($sf_context->getConfiguration()->isPluginEnabled('sfEcommercePlugin')) { ?>
+  <?php echo get_component('sfEcommercePlugin', 'viewCart'); ?>
+<?php } ?>
+
 <?php // echo get_component('informationobject', 'creator', array('resource' => $resource)) ?>
 
 <?php // echo get_component('digitalobject', 'imageflow', array('resource' => $resource)) ?>

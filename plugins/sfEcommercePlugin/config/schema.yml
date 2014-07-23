@@ -1,0 +1,26 @@
+propel:
+  _attributes: { package: plugins.sfEcommercePlugin.lib.model }
+
+  sale:
+    id: { type: integer, required: true, primaryKey: true, foreignTable: object, foreignReference: id, onDelete: cascade, inheritanceKey: true }
+    first_name: varchar(50)
+    last_name: varchar(50)
+    address1: varchar(50)
+    address2: varchar(50)
+    city: varchar(50)
+    country: varchar(2)
+    province: varchar(30)
+    postal_code: varchar(15)
+    email: varchar(50)
+    phone: varchar(30)
+    processing_status: varchar(50)
+    created_at:
+    updated_at:
+
+  sale_resource:
+    id: { type: integer, required: true, primaryKey: true, autoIncrement: true }
+    sale_id: { type: integer, foreignTable: sale, foreignReference: id, onDelete: cascade }
+    resource_id: { type: integer, foreignTable: information_object, foreignReference: id }
+    repository_id: { type: integer, foreignTable: repository, foreignReference: id }
+    price: varchar(20)
+    processing_status: varchar(50)

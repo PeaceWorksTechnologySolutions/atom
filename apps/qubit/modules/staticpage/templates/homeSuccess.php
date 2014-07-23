@@ -24,6 +24,11 @@
 
   <?php echo get_component('default', 'popular', array('limit' => 10, 'sf_cache_key' => $sf_user->getCulture())) ?>
 
+  <?php if ($sf_context->getConfiguration()->isPluginEnabled('sfEcommercePlugin')) { ?>
+      <?php echo get_component('sfEcommercePlugin', 'viewCart') ?>
+  <?php } ?>
+
+
 <?php end_slot() ?>
 
 <div class="page">

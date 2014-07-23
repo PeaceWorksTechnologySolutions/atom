@@ -145,6 +145,11 @@ abstract class BaseInformationObject extends QubitObject implements ArrayAccess
       return true;
     }
 
+    if ('saleResources' == $name)
+    {
+      return true;
+    }
+
     try
     {
       if (!$value = call_user_func_array(array($this->getCurrentinformationObjectI18n($options), '__isset'), $args) && !empty($options['cultureFallback']))
@@ -255,6 +260,23 @@ abstract class BaseInformationObject extends QubitObject implements ArrayAccess
       }
 
       return $this->refFkValues['informationObjectI18ns'];
+    }
+
+    if ('saleResources' == $name)
+    {
+      if (!isset($this->refFkValues['saleResources']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['saleResources'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['saleResources'] = self::getsaleResourcesById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['saleResources'];
     }
 
     try
@@ -595,6 +617,26 @@ abstract class BaseInformationObject extends QubitObject implements ArrayAccess
   public function addinformationObjectI18nsCriteria(Criteria $criteria)
   {
     return self::addinformationObjectI18nsCriteriaById($criteria, $this->id);
+  }
+
+  public static function addsaleResourcesCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitSaleResource::RESOURCE_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getsaleResourcesById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addsaleResourcesCriteriaById($criteria, $id);
+
+    return QubitSaleResource::get($criteria, $options);
+  }
+
+  public function addsaleResourcesCriteria(Criteria $criteria)
+  {
+    return self::addsaleResourcesCriteriaById($criteria, $this->id);
   }
 
   public function getCurrentinformationObjectI18n(array $options = array())

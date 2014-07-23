@@ -2,3 +2,4 @@
 lib.model.schema.sql=propel
 plugins.qbAclPlugin.lib.model.schema.sql=propel
 plugins.qtAccessionPlugin.lib.model.schema.sql=propel
+plugins.sfEcommercePlugin.lib.model.schema.sql=propel

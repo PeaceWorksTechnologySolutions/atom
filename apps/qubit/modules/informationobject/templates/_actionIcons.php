@@ -1,4 +1,9 @@
 <section id="action-icons">
+
+  <?php if ($sf_context->getConfiguration()->isPluginEnabled('sfEcommercePlugin')) { ?>
+      <?php echo get_component('sfEcommercePlugin', 'addObjectToCart', array('resource' => $resource)) ?>
+  <?php } ?>
+
   <ul>
 
     <li>

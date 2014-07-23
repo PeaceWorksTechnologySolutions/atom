@@ -44,6 +44,7 @@ class ProjectConfiguration extends sfProjectConfiguration
       'sfThumbnailPlugin',
       'sfTranslatePlugin',
       'sfWebBrowserPlugin',
+      'sfEcommercePlugin',
 
       // sfInstallPlugin and sfPluginAdminPlugin depend on sfPropelPlugin, so
       // must be enabled last

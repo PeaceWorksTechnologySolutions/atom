@@ -102,6 +102,11 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
       return true;
     }
 
+    if ('saleResources' == $name)
+    {
+      return true;
+    }
+
     try
     {
       if (!$value = call_user_func_array(array($this->getCurrentrepositoryI18n($options), '__isset'), $args) && !empty($options['cultureFallback']))
@@ -168,6 +173,23 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
       }
 
       return $this->refFkValues['repositoryI18ns'];
+    }
+
+    if ('saleResources' == $name)
+    {
+      if (!isset($this->refFkValues['saleResources']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['saleResources'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['saleResources'] = self::getsaleResourcesById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['saleResources'];
     }
 
     try
@@ -296,6 +318,26 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
   public function addrepositoryI18nsCriteria(Criteria $criteria)
   {
     return self::addrepositoryI18nsCriteriaById($criteria, $this->id);
+  }
+
+  public static function addsaleResourcesCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitSaleResource::REPOSITORY_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getsaleResourcesById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addsaleResourcesCriteriaById($criteria, $id);
+
+    return QubitSaleResource::get($criteria, $options);
+  }
+
+  public function addsaleResourcesCriteria(Criteria $criteria)
+  {
+    return self::addsaleResourcesCriteriaById($criteria, $this->id);
   }
 
   public function getCurrentrepositoryI18n(array $options = array())
