@@ -26,6 +26,12 @@
  * @author     Jack Bates <jack@nottheoilrig.com>
  * @author     David Juhasz <david@artefactual.com>
  */
+
+function sfe_array_get($array, $key, $default = null) {
+    return isset($array[$key]) ? $array[$key] : $default;
+}
+
+
 class sfEcommercePluginCheckoutAction extends DefaultEditAction
 {
   public static
@@ -40,14 +46,13 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       'country',
       'email',
       'phone',
+      'non_commercial',
       );
 
   protected function earlyExecute()
   {
     $this->form->getValidatorSchema()->setOption('allow_extra_fields', true);
-
     $this->resource = new QubitSale;
-
   }
 
   protected function addField($name)
@@ -77,6 +82,13 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       case 'country':
         $this->form->setValidator('country', new sfValidatorI18nChoiceCountry);
         $this->form->setWidget('country', new sfWidgetFormI18nChoiceCountry(array('add_empty' => true, 'culture' => $this->context->user->getCulture())));
+        $this->form->setDefault('country', sfe_array_get($this->resource, 'country', sfConfig::get("ecommerce_default_country")));
+        break;
+
+      case 'non_commercial':
+        $this->form->setValidator($name, new sfValidatorBoolean(array('required' => true), array('required' => $this->context->i18n->__('This system only allows purchase of photos for non-commercial use.  If you require photos for commercial use, please contact the archives directly.'))));
+        $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
+        $this->form->setDefault($name, false);
         break;
 
       default:
@@ -89,8 +101,11 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
   {
     switch ($field->getName())
     {
-      default:
+      case 'non_commercial':
+        sfContext::getInstance()->getLogger()->warning('processField!');
+        sfContext::getInstance()->getLogger()->warning($this->form->getValue('non_commercial'));
 
+      default:
         return parent::processField($field);
     }
   }
@@ -102,10 +117,6 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
     if ($request->isMethod('post'))
     {
       $this->form->bind($request->getPostParameters());
-      sfContext::getInstance()->getLogger()->warning('FOO!');
-      sfContext::getInstance()->getLogger()->warning($this->form->getValue('non_commercial'));
-      //if (in_array($item, (array)$this->form->getValue('non_commercial'))) {
-      //}
       if ($this->form->isValid())
       {
         $this->processForm();
@@ -135,6 +146,22 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       } else {
 
       }
+    } else {
+
+        if (sfConfig::get("ecommerce_fill_checkout")) {
+            $this->form->setDefaults(array(
+                'firstName' => 'Jason',
+                'lastName' => 'Hildebrand',
+                'address1' => '198 Home Street',
+                'city' => 'Winnipeg',
+                'province' => 'Manitoba',
+                'postalCode' => 'r3g 1x1',
+                'country' => 'CA',
+                'email' => 'jason@peaceworks.ca',
+                'phone' => '204 775 1212',
+                'non_commercial' => true,
+            ));
+        }
     }
   }
 }

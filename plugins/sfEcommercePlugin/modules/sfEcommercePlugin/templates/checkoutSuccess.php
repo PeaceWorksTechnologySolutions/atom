@@ -34,9 +34,11 @@
         <?php echo render_field($form->email, $resource) ?>
         <?php echo render_field($form->phone, $resource) ?>
 
+
         <div class="form-item">
-            <label for="non_commercial"></label>
-            <input name="non_commercial" type="checkbox" value="non_commercial"> I will only use these photos for non-commercial purposes.
+            <?php echo $form->non_commercial->renderError() ?>
+            <?php echo render_field($form->non_commercial, $resource, array('onlyInput' => true)) ?>
+             I will only use these photos for non-commercial purposes.
         </div>
 
       </fieldset>

@@ -8,6 +8,9 @@ prod:
 
 
 all:
+  default_country: CA
+  fill_checkout: true
+
   paypal:
     email: jason@peaceworks.ca
 
