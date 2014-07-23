@@ -1,0 +1,180 @@
+div#ecommerce-cart-bar > div {
+  position: relative;
+  float: left;
+  margin-left: 10px;
+}
+
+div#ecommerce-cart-bar .cart_item {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+div#ecommerce-cart-bar div.top-dropdown-container {
+  min-width: 300px;
+}
+
+.cart_item {
+    margin-bottom: 1.5em;
+}
+
+.cart {
+    margin-top: 1em;
+}
+
+.cart_item:after, h3.cart_checkout:after {
+    content: "."; 
+    visibility: hidden; 
+    display: block; 
+    height: 0; 
+    clear: both;
+}
+
+.cart_thumbnail {
+    float: left;
+    margin-right: 1em;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.cart_thumbnail img {
+    width: 100px;
+}
+
+.cart_referenceCode, .cart_price {
+    margin-top: .5em;
+}
+
+.cart_truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cart_item_remove {
+    margin-top: 1em;
+}
+
+.cart-subtotal {
+  float: right;
+  display: inline;
+}
+
+div.cart_action {
+    display: inline; 
+}
+
+div.cart_action {
+    margin-left: 2em;
+    text-align: right;
+}
+
+section#cart_full .cart_thumbnail img ,
+fieldset#downloadPhotos .cart_thumbnail img {
+    width: 200px;
+}
+
+div.space_before {
+  padding-top: 1em;
+}
+
+div#customerInformation,
+div#orderInformation {
+  margin: 1em 1em 1em 1em;
+}
+
+fieldset#orderPhotos .cart_item {
+  margin: 1em 1em 1em 1em;
+}
+
+div.confirm select {
+  width: 10em;
+}
+
+fieldset#note textarea {
+  width: 70em;
+  height: 10em;
+}
+
+div#instructions {
+  margin-top: 1em;
+}
+
+div.download_all {
+  margin: 3em 0em 3em 202px;
+  padding-left: 1em;
+  font-weight: bold;
+}
+
+#context-menu div.cart div.price {
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#context-menu div.cart div.resolution {
+  margin-bottom: 1em;
+}
+
+div.ecommerce-button {
+  border-color: #cba957 #bf942a #aa8326;
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b) repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border-width: 1px;
+  border-radius: 3px;
+  border-style: solid;
+  margin-bottom: .5em;
+  margin-top: .5em;
+  display: inline-block;
+  padding: 0px 0px 0px 0px;
+  line-height: auto;
+}
+
+div.ecommerce-button-large {
+  font-size: 19.5px;
+}
+
+div.ecommerce-button a:hover,
+div.ecommerce-button input:hover {
+  background: linear-gradient(to bottom, #f7e9c6, #f0cf7a) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+div.ecommerce-button a:active,
+div.ecommerce-button input:active {
+  background: linear-gradient(to bottom, #f0cf7a, #f7e9c6) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+div.ecommerce-button a,
+#action-icons div.ecommerce-button a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: .25em .5em .25em .5em;
+}
+
+div.ecommerce-button input {
+  background-color: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: .25em .5em .25em .5em;
+}
+
+div.ecommerce-button-non-default {
+  background-color: #a0a0a0;
+  background: none;
+  margin-right: 4em;
+}
+
+body.checkout section.actions {
+  background-color: #ffffff;
+  box-shadow: none;
+  margin-top: 0px;
+}
+
+body.checkout section.actions div.ecommerce-button-non-default {
+  margin-right: 4em;
+}
+
+div#ecommerce-cart-bar a.ecommerce-cart-highlight {
+  background-color: #f6ac00;
+  color: #ffffff;
+}

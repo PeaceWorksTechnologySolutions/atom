@@ -92,6 +92,21 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     {
     }
 
+    if ('saleResources' == $name)
+    {
+      return true;
+    }
+
+    if ('userEcommerceSettingss' == $name)
+    {
+      return true;
+    }
+
+    if ('ecommerceTransactions' == $name)
+    {
+      return true;
+    }
+
     if ('informationObjects' == $name)
     {
       return true;
@@ -134,6 +149,57 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     }
     catch (sfException $e)
     {
+    }
+
+    if ('saleResources' == $name)
+    {
+      if (!isset($this->refFkValues['saleResources']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['saleResources'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['saleResources'] = self::getsaleResourcesById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['saleResources'];
+    }
+
+    if ('userEcommerceSettingss' == $name)
+    {
+      if (!isset($this->refFkValues['userEcommerceSettingss']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['userEcommerceSettingss'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['userEcommerceSettingss'] = self::getuserEcommerceSettingssById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['userEcommerceSettingss'];
+    }
+
+    if ('ecommerceTransactions' == $name)
+    {
+      if (!isset($this->refFkValues['ecommerceTransactions']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['ecommerceTransactions'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['ecommerceTransactions'] = self::getecommerceTransactionsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['ecommerceTransactions'];
     }
 
     if ('informationObjects' == $name)
@@ -256,6 +322,66 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     $criteria->addJoin(QubitRepository::DESC_DETAIL_ID, QubitTerm::ID);
 
     return $criteria;
+  }
+
+  public static function addsaleResourcesCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitSaleResource::REPOSITORY_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getsaleResourcesById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addsaleResourcesCriteriaById($criteria, $id);
+
+    return QubitSaleResource::get($criteria, $options);
+  }
+
+  public function addsaleResourcesCriteria(Criteria $criteria)
+  {
+    return self::addsaleResourcesCriteriaById($criteria, $this->id);
+  }
+
+  public static function adduserEcommerceSettingssCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitUserEcommerceSettings::REPOSITORY_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getuserEcommerceSettingssById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::adduserEcommerceSettingssCriteriaById($criteria, $id);
+
+    return QubitUserEcommerceSettings::get($criteria, $options);
+  }
+
+  public function adduserEcommerceSettingssCriteria(Criteria $criteria)
+  {
+    return self::adduserEcommerceSettingssCriteriaById($criteria, $this->id);
+  }
+
+  public static function addecommerceTransactionsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitEcommerceTransaction::REPOSITORY_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getecommerceTransactionsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addecommerceTransactionsCriteriaById($criteria, $id);
+
+    return QubitEcommerceTransaction::get($criteria, $options);
+  }
+
+  public function addecommerceTransactionsCriteria(Criteria $criteria)
+  {
+    return self::addecommerceTransactionsCriteriaById($criteria, $this->id);
   }
 
   public static function addinformationObjectsCriteriaById(Criteria $criteria, $id)

@@ -1,0 +1,52 @@
+propel:
+  _attributes: { package: plugins.sfEcommercePlugin.lib.model }
+
+  sale:
+    id: { type: integer, required: true, primaryKey: true, foreignTable: object, foreignReference: id, onDelete: cascade, inheritanceKey: true }
+    first_name: varchar(50)
+    last_name: varchar(50)
+    address1: varchar(50)
+    address2: varchar(50)
+    city: varchar(50)
+    country: varchar(2)
+    province: varchar(30)
+    postal_code: varchar(15)
+    email: varchar(50)
+    phone: varchar(30)
+    processing_status: varchar(50)
+    total_amount: varchar(20)
+    paid_at: timestamp
+    transaction_id: varchar(50)
+    transaction_fee: varchar(20)
+    transaction_date: varchar(50)
+    may_contact: { type: boolean, default: false }
+    created_at:
+    updated_at:
+    last_processed_at: timestamp
+
+  sale_resource:
+    id: { type: integer, required: true, primaryKey: true, autoIncrement: true }
+    sale_id: { type: integer, foreignTable: sale, foreignReference: id, onDelete: cascade }
+    resource_id: { type: integer, foreignTable: information_object, foreignReference: id }
+    repository_id: { type: integer, foreignTable: repository, foreignReference: id }
+    price: varchar(20)
+    tax1_name: varchar(10)
+    tax1_rate: varchar(10)
+    tax2_name: varchar(10)
+    tax2_rate: varchar(10)
+    processing_status: varchar(50)
+    refund_transaction_id: varchar(50)
+
+  user_ecommerce_settings:
+    user_id: { type: integer, foreignTable: user, foreignReference: id, onDelete: cascade }
+    repository_id: { type: integer, foreignTable: repository, foreignReference: id }
+    vacation_enabled: { type: boolean, default: false }
+    vacation_message: longvarchar
+
+  ecommerce_transaction:
+    repository_id: { type: integer, foreignTable: repository, foreignReference: id }
+    sale_id: { type: integer, foreignTable: sale, foreignReference: id, onDelete: cascade }
+    amount: { type: decimal, size: 15, scale: 2 }
+    type: varchar(30)
+    created_at: timestamp
+    

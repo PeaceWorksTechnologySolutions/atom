@@ -46,6 +46,12 @@
 
   </nav>
 
+  <?php if ($sf_context->getConfiguration()->isPluginEnabled('sfEcommercePlugin')) { ?>
+    <div id="ecommerce-cart-bar">
+      <?php echo get_component('sfEcommercePlugin', 'viewCart') ?>
+    </div>
+  <?php } ?>
+
   <?php echo get_component_slot('header'); ?>
 
 </header>

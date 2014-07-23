@@ -1,20 +1,21 @@
-# [Access to Memory](https://www.accesstomemory.org)
+# This branch
 
-Developed and maintained by [Artefactual Systems](https://www.artefactual.com/)
+This branch contains an AtoM customization which adds a shopping cart and allows purchase of image files with payment via paypal.  [Read details](plugins/sfEcommercePlugin/README.md).
 
-AtoM (short for Access to Memory) is a web-based, open source application for
-standards-based archival description and access. The application is
-multilingual and multi-repository. First commissioned by the International
-Council on Archives ([ICA](https://www.ica.org)) to make it easier for
-archival institutions worldwide to put their holdings online using the ICA’s
-descriptive standards, the project has since grown into an internationally
-used community-driven project. Learn more at:
 
-* https://www.accesstomemory.org
+Access to Memory
+================
 
-You are free to copy, modify, and distribute AtoM with attribution under the
-terms of the AGPLv3 license. See the [LICENSE](LICENSE) file for details.
+See http://accesstomemory.org/wiki for installation instructions.
 
+Access to Memory (AtoM) is an application built using the Symfony framework.
+
+See http://symfony-project.com for additional instructions on installing and
+configuring a Symfony application.
+
+See COPYRIGHT and LICENSE for list of dependencies and associated licenses.
+
+<<<<<<< HEAD
 ## Installation
 
 **Production installation**

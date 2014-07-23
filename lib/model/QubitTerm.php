@@ -109,6 +109,8 @@ class QubitTerm extends BaseTerm
     public const RIGHT_BASIS_LICENSE_ID = 171;
     public const RIGHT_BASIS_STATUTE_ID = 172;
     public const RIGHT_BASIS_POLICY_ID = 173;
+    // Rights act
+    public const RIGHT_ACT_DISSEMINATE_ID = 305;
     // Language note
     public const LANGUAGE_NOTE_ID = 174;
     // Accrual relation type

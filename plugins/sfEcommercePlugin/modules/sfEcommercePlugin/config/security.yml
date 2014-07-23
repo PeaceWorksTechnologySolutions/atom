@@ -1,0 +1,19 @@
+viewOrder:
+  credentials: [[administrator, editor, contributor, authenticated]]
+  is_secure: true
+
+browseOrders:
+  credentials: [[administrator, editor, contributor, authenticated]]
+  is_secure: true
+  
+editUserSettings:
+  credentials: [[administrator, editor, contributor, authenticated]]
+  is_secure: true
+
+indexUserSettings:
+  credentials: [[administrator, editor, contributor, authenticated]]
+  is_secure: true
+
+salesReport:
+  credentials: [[administrator, editor, contributor, authenticated]]
+  is_secure: true
