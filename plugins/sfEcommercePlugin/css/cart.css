@@ -19,6 +19,11 @@
     float: left;
     margin-right: 1em;
     border: 1px solid black;
+    overflow: hidden;
+}
+
+.cart_thumbnail img {
+    width: 100px;
 }
 
 .cart_referenceCode, .cart_price {
@@ -32,7 +37,7 @@
 }
 
 .cart_item_remove {
-    margin-top: 2em;
+    margin-top: 1em;
 }
 
 section#cart h3,
@@ -45,3 +50,6 @@ section#cart div.cart_action {
     text-align: right;
 }
 
+section#cart_full .cart_thumbnail img {
+    width: 200px;
+}

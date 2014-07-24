@@ -17,24 +17,25 @@
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class sfEcommercePluginAddObjectToCartComponent extends sfComponent
+class sfEcommercePluginPendingPaymentAction extends sfEcommercePaymentAction
 {
   public function execute($request)
   {
-    $this->may_disseminate = $this->right_is_allowed(true);
-  }
+    parent::execute($request);
 
-  public function right_is_allowed($default) 
-  {
-    $ancestors = $this->resource->ancestors->andSelf()->orderBy('rgt');
-    foreach ($ancestors as $item) {
-        foreach ($item->getRights() as $right) {
-            $right_obj = $right->object;
-            if ($right_obj->actId == QubitTerm::RIGHT_ACT_DISSEMINATE_ID) {
-                return $right_obj->restriction;
-            }
-        }
+    // redirect if payment has completed
+    if ($this->resource['processingStatus'] == 'paid') {
+      $this->redirect(array('module' => 'staticpage', 'slug' => 'paymentComplete'));
     }
-    return $default;
+    
+    // otherwise wait up to 120 seconds until status changed to paid. 
+    $created_timestamp = strtotime($this->resource['createdAt']);
+    $current_timestamp = strtotime(date('Y-m-d H:i:s'));
+    $age = $current_timestamp - $created_timestamp;
+    if ($this->resource['processingStatus'] == 'pending_payment' && $age >= 120) {
+      $this->contact_for_support = true;
+    } else {
+      $this->contact_for_support = false;
+    }
   }
 }

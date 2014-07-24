@@ -1,10 +1,12 @@
 dev:
   paypal:
-    form: https://www.sandbox.paypal.com/cgi-bin/webscr
+    url: https://www.sandbox.paypal.com/cgi-bin/webscr
+    ipn_listener: https://cmac.canoe.stcf.peaceworks.ca/cmac
 
 prod:
   paypal:
-    form: https://www.paypal.com/cgi-bin/webscr
+    url: https://www.paypal.com/cgi-bin/webscr
+    ipn_listener: https://cmac.canoe.stcf.peaceworks.ca/cmac/qubit_dev.php/sfEcommercePlugin/ipn/id/458
 
 
 all:
@@ -12,7 +14,10 @@ all:
   fill_checkout: true
 
   paypal:
-    email: jason@peaceworks.ca
+    email: jason-atom@peaceworks.ca
 
   jasonarc:
     price: 10.50
+
+  jasonarc-2:
+    price: 12.50

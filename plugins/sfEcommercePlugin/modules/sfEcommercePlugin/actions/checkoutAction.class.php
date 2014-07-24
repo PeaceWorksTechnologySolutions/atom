@@ -55,6 +55,15 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
     $this->resource = new QubitSale;
   }
 
+  public function logMessage($message, $priority = 'info')
+  {
+    if (isset($this->resource)) {
+      $message = "Order " . $this->resource->getId() . " " . $message;
+      $message = str_replace("\n", " ", $message);
+    }
+    parent::logMessage($message, $priority);
+  }
+
   protected function addField($name)
   {
     switch ($name)
@@ -75,7 +84,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       case 'address2':
       case 'phone':
         $this->form->setDefault($name, $this->resource[$name]);
-        $this->form->setValidator('content', new sfValidatorString);
+        $this->form->setValidator($name, new sfValidatorString);
         $this->form->setWidget($name, new sfWidgetFormInput);
         break;
 
@@ -125,7 +134,10 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
 
         $this->resource->save();
 
+        $this->logMessage('Created order', 'notice');
+
         $cart_contents = $this->getUser()->getAttribute('cart_contents');
+        $i = 0;
         foreach (sfEcommercePlugin::fetch_cart_resources($cart_contents) as $resource) {
             $repo = $resource->getRepository(array('inherit' => true));
 
@@ -137,14 +149,22 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
             $sale_resource->setProcessingStatus('new');
 
             $sale_resource->save();
+            $i += 1;
         }
 
+        $this->logMessage("Created $i sale_resource records", 'notice');
+
         // clear the user's cart
-        $this->getUser()->setAttribute('cart_contents', $cart);
+        $this->getUser()->setAttribute('cart_contents', array());
 
-        $this->redirect(array('module' => 'sfEcommercePlugin', 'action' => 'payment'));
-      } else {
+        $my_sales = $this->getUser()->getAttribute('my_sales', NULL);
+        if (empty($my_sales)) {
+          $my_sales = array();
+        }
+        $my_sales[] = $this->resource->getId();
+        $this->getUser()->setAttribute('my_sales', $my_sales);
 
+        $this->redirect(array('module' => 'sfEcommercePlugin', 'action' => 'payment', 'id' => $this->resource->getId()));
       }
     } else {
 

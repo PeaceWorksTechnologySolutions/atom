@@ -10,7 +10,8 @@
     <? foreach ($resources as $resource ) { ?>
     <div class="cart_item">
         <div class="cart_thumbnail">
-            <?php echo link_to(image_tag($resource->digitalObjects[0]->thumbnail->getFullPath(), array('style' => 'height: 75px')), array('module' => 'informationobject', 'slug' => $resource->slug)); ?>
+            <?php //echo link_to(image_tag($resource->digitalObjects[0]->thumbnail->getFullPath()), array('module' => 'informationobject', 'slug' => $resource->slug)); ?>
+            <?php echo image_tag($resource->digitalObjects[0]->thumbnail->getFullPath()); ?>
         </div>
         <div class="cart_item_description">
             <div class="cart_title cart_truncate">

@@ -19,6 +19,11 @@ abstract class BaseSale extends QubitObject implements ArrayAccess
     EMAIL = 'sale.EMAIL',
     PHONE = 'sale.PHONE',
     PROCESSING_STATUS = 'sale.PROCESSING_STATUS',
+    TOTAL_AMOUNT = 'sale.TOTAL_AMOUNT',
+    PAID_AT = 'sale.PAID_AT',
+    TRANSACTION_ID = 'sale.TRANSACTION_ID',
+    TRANSACTION_FEE = 'sale.TRANSACTION_FEE',
+    TRANSACTION_DATE = 'sale.TRANSACTION_DATE',
     CREATED_AT = 'sale.CREATED_AT',
     UPDATED_AT = 'sale.UPDATED_AT';
 
@@ -40,6 +45,11 @@ abstract class BaseSale extends QubitObject implements ArrayAccess
     $criteria->addSelectColumn(QubitSale::EMAIL);
     $criteria->addSelectColumn(QubitSale::PHONE);
     $criteria->addSelectColumn(QubitSale::PROCESSING_STATUS);
+    $criteria->addSelectColumn(QubitSale::TOTAL_AMOUNT);
+    $criteria->addSelectColumn(QubitSale::PAID_AT);
+    $criteria->addSelectColumn(QubitSale::TRANSACTION_ID);
+    $criteria->addSelectColumn(QubitSale::TRANSACTION_FEE);
+    $criteria->addSelectColumn(QubitSale::TRANSACTION_DATE);
     $criteria->addSelectColumn(QubitSale::CREATED_AT);
     $criteria->addSelectColumn(QubitSale::UPDATED_AT);
 

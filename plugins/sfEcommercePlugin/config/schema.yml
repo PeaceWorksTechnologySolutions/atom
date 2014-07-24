@@ -14,6 +14,11 @@ propel:
     email: varchar(50)
     phone: varchar(30)
     processing_status: varchar(50)
+    total_amount: varchar(20)
+    paid_at: timestamp
+    transaction_id: varchar(200)
+    transaction_fee: varchar(20)
+    transaction_date: varchar(50)
     created_at:
     updated_at:
 

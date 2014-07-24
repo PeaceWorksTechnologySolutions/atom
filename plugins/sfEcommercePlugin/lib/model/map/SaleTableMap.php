@@ -48,6 +48,11 @@ class SaleTableMap extends TableMap {
 		$this->addColumn('EMAIL', 'email', 'VARCHAR', false, 50, null);
 		$this->addColumn('PHONE', 'phone', 'VARCHAR', false, 30, null);
 		$this->addColumn('PROCESSING_STATUS', 'processingStatus', 'VARCHAR', false, 50, null);
+		$this->addColumn('TOTAL_AMOUNT', 'totalAmount', 'VARCHAR', false, 20, null);
+		$this->addColumn('PAID_AT', 'paidAt', 'TIMESTAMP', false, null, null);
+		$this->addColumn('TRANSACTION_ID', 'transactionId', 'VARCHAR', false, 200, null);
+		$this->addColumn('TRANSACTION_FEE', 'transactionFee', 'VARCHAR', false, 20, null);
+		$this->addColumn('TRANSACTION_DATE', 'transactionDate', 'VARCHAR', false, 50, null);
 		$this->addColumn('CREATED_AT', 'createdAt', 'TIMESTAMP', true, null, null);
 		$this->addColumn('UPDATED_AT', 'updatedAt', 'TIMESTAMP', true, null, null);
 		// validators

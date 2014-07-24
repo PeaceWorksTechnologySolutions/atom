@@ -17,24 +17,17 @@
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class sfEcommercePluginAddObjectToCartComponent extends sfComponent
+class sfEcommercePluginCancelPaymentAction extends sfEcommercePaymentAction
 {
   public function execute($request)
   {
-    $this->may_disseminate = $this->right_is_allowed(true);
-  }
+    parent::execute($request);
 
-  public function right_is_allowed($default) 
-  {
-    $ancestors = $this->resource->ancestors->andSelf()->orderBy('rgt');
-    foreach ($ancestors as $item) {
-        foreach ($item->getRights() as $right) {
-            $right_obj = $right->object;
-            if ($right_obj->actId == QubitTerm::RIGHT_ACT_DISSEMINATE_ID) {
-                return $right_obj->restriction;
-            }
-        }
-    }
-    return $default;
+    $this->logMessage("Cancelling order.", 'notice');
+    $this->resource['processingStatus'] = 'cancelled';
+    $this->resource->save();
+
+    $this->redirect(array('module' => 'staticpage', 'slug' => 'paymentCancelled'));
+
   }
 }
