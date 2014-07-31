@@ -13,6 +13,7 @@ abstract class BaseSaleResource implements ArrayAccess
     REPOSITORY_ID = 'sale_resource.REPOSITORY_ID',
     PRICE = 'sale_resource.PRICE',
     PROCESSING_STATUS = 'sale_resource.PROCESSING_STATUS',
+    REFUND_TRANSACTION_ID = 'sale_resource.REFUND_TRANSACTION_ID',
     SERIAL_NUMBER = 'sale_resource.SERIAL_NUMBER';
 
   public static function addSelectColumns(Criteria $criteria)
@@ -23,6 +24,7 @@ abstract class BaseSaleResource implements ArrayAccess
     $criteria->addSelectColumn(QubitSaleResource::REPOSITORY_ID);
     $criteria->addSelectColumn(QubitSaleResource::PRICE);
     $criteria->addSelectColumn(QubitSaleResource::PROCESSING_STATUS);
+    $criteria->addSelectColumn(QubitSaleResource::REFUND_TRANSACTION_ID);
     $criteria->addSelectColumn(QubitSaleResource::SERIAL_NUMBER);
 
     return $criteria;

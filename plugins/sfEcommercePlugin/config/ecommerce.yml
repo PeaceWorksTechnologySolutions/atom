@@ -3,6 +3,11 @@ dev:
     url: https://www.sandbox.paypal.com/cgi-bin/webscr
     ipn_listener: https://cmac.canoe.stcf.peaceworks.ca/cmac
 
+    api_url: https://api-3t.sandbox.paypal.com/nvp
+    api_username: jason-atom_api2.peaceworks.ca
+    api_password: 1406142454
+    api_signature: AvL-QxuXrOHDhx1-cKCOmSRVjiWEAY-WvB9ja3gf4GWt8CxpbB4sqmWi
+
 prod:
   paypal:
     url: https://www.paypal.com/cgi-bin/webscr

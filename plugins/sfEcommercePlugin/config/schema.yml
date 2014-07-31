@@ -16,7 +16,7 @@ propel:
     processing_status: varchar(50)
     total_amount: varchar(20)
     paid_at: timestamp
-    transaction_id: varchar(200)
+    transaction_id: varchar(50)
     transaction_fee: varchar(20)
     transaction_date: varchar(50)
     created_at:
@@ -29,3 +29,4 @@ propel:
     repository_id: { type: integer, foreignTable: repository, foreignReference: id }
     price: varchar(20)
     processing_status: varchar(50)
+    refund_transaction_id: varchar(50)

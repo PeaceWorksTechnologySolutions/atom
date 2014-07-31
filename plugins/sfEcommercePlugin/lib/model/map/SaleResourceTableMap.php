@@ -42,6 +42,7 @@ class SaleResourceTableMap extends TableMap {
 		$this->addForeignKey('REPOSITORY_ID', 'repositoryId', 'INTEGER', 'repository', 'ID', false, null, null);
 		$this->addColumn('PRICE', 'price', 'VARCHAR', false, 20, null);
 		$this->addColumn('PROCESSING_STATUS', 'processingStatus', 'VARCHAR', false, 50, null);
+		$this->addColumn('REFUND_TRANSACTION_ID', 'refundTransactionId', 'VARCHAR', false, 50, null);
 		$this->addColumn('SERIAL_NUMBER', 'serialNumber', 'INTEGER', true, null, 0);
 		// validators
 	} // initialize()

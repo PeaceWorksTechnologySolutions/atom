@@ -50,18 +50,6 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       throw new sfSecurityException;
     }
 
-    if ($this->resource['processingStatus'] != 'pending_payment') {
-      $this->logMessage("Received IPN for order which does not have status 'pending_payment'", 'notice');
-      $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
-    }
-
-    if ($fields['payment_status'] != 'Completed') {
-      $this->logMessage("Received IPN with status '" . $fields['payment_status'] . "' - aborting.", 'notice');
-      $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
-    }
-
     if ($fields['business'] != sfConfig::get("ecommerce_paypal_email")) {
       $this->logMessage("Received IPN with incorrect business '" . $fields['business'] . "' - aborting.", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
@@ -74,19 +62,63 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       throw new sfSecurityException;
     }
 
-    if (floatval($this->resource['totalAmount']) != floatval($fields['mc_gross'])) {
-      $this->logMessage("Received " . floatval($fields['mc_gross']) . " but expected " . floatval($this->resource['totalAmount']) . " - aborting.'", 'notice');
+    if ($fields['payment_status'] == 'Completed') {
+      // we've received a payment.
+
+      if ($this->resource['processingStatus'] != 'pending_payment') {
+        $this->logMessage("Received 'Completed' IPN for order which does not have status 'pending_payment'", 'notice');
+        $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
+        throw new sfSecurityException;
+      }
+      if (floatval($this->resource['totalAmount']) != floatval($fields['mc_gross'])) {
+        $this->logMessage("Received " . floatval($fields['mc_gross']) . " but expected " . floatval($this->resource['totalAmount']) . " - aborting.'", 'notice');
+        $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
+        throw new sfSecurityException;
+      }
+
+      // process the payment
+      $this->resource['processingStatus'] = 'paid';
+      $this->resource['transactionId'] = $fields['txn_id'];
+      $this->resource['transactionFee'] = $fields['mc_fee'];
+      $this->resource['transactionDate'] = $fields['payment_date'];
+      $this->resource['paidAt'] = date('Y-m-d H:i:s');
+      $this->resource->save();
+
+
+    } elseif ($fields['payment_status'] == 'Refunded') {
+      // we've received a refund
+      if ($this->resource['transactionId'] != $fields['parent_txn_id']) {
+        $this->logMessage("Received 'Refunded' IPN but txn_id does not match", 'notice');
+        $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
+        throw new sfSecurityException;
+      }
+      // mark the saleResources which have been successfully refunded.
+      foreach ($this->resource->saleResources as $saleResource) {
+        if ($saleResource['processingStatus'] == 'pending_refund' 
+        && $saleResource['refundTransactionId'] == $fields['txn_id']) {
+          $saleResource['processingStatus'] = 'refunded';
+          $saleResource->save();
+        }
+      }
+
+      $all_refunded = true;
+      foreach ($this->resource->saleResources as $saleResource) {
+        if ($saleResource['processingStatus'] != 'refunded') {
+          $all_refunded = false;
+          break;
+        }
+      }
+      if ($all_refunded) {
+        $this->resource['processingStatus'] = 'refunded';
+        $this->resource->save();
+      }
+
+    } else {
+      $this->logMessage("Received IPN with status '" . $fields['payment_status'] . "' which is not handled - aborting.", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
       throw new sfSecurityException;
     }
 
-    // process the IPN
-    $this->resource['processingStatus'] = 'paid';
-    $this->resource['transactionId'] = $fields['txn_id'];
-    $this->resource['transactionFee'] = $fields['mc_fee'];
-    $this->resource['transactionDate'] = $fields['payment_date'];
-    $this->resource['paidAt'] = date('Y-m-d H:i:s');
-    $this->resource->save();
   }
 
   public function verify_ipn($request) {
