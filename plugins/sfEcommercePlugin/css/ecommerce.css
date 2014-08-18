@@ -1,0 +1,18 @@
+
+div.form-item {
+    margin-left: 25px;
+    width: 400px;
+}
+
+fieldset#userEcommerceSettings {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+body.browseOrders div.filter select {
+  width: 15em;
+}
+
+body.browseOrders div.span6 {
+  width: 250px;
+}

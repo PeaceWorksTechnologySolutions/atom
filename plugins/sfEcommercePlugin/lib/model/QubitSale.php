@@ -33,4 +33,31 @@ class QubitSale extends BaseSale {
     return call_user_func_array(array($this, 'BaseSale::__get'), $args);
   }
 
+  public function unique_repositories() {
+    $repos = array();
+    foreach ($this->saleResources as $saleResource) {
+      $repo = $saleResource->repository;
+      if (!array_key_exists($repo->getId(), $repos)) {
+        $repos[$repo->getId()] = array('id' => $repo->getId(), 'repository' => $repo);
+      }
+    }
+    return $repos;
+  }
+
+  public function allResourcesProcessed() {
+    $all_processed = true;
+    foreach ($this->saleResources as $saleResource) {
+      $status = $saleResource->processingStatus;
+      if ($status == 'new') {
+        $all_processed = false;
+        break;
+      }
+    }
+    return $all_processed;
+  }
+
+  public function hash() {
+    return md5($this->createdAt . $this->firstName . $this->getId());
+  }
+
 } // QubitSale

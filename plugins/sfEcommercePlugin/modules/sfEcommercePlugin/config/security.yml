@@ -1,0 +1,15 @@
+viewOrder:
+  credentials: administrator
+  is_secure: true
+
+browseOrders:
+  credentials: administrator
+  is_secure: true
+  
+editUserSettings:
+  credentials: administrator
+  is_secure: true
+
+indexUserSettings:
+  credentials: administrator
+  is_secure: true

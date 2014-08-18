@@ -83,7 +83,7 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       $this->resource['transactionDate'] = $fields['payment_date'];
       $this->resource['paidAt'] = date('Y-m-d H:i:s');
       $this->resource->save();
-
+      sfEcommercePlugin::notify_repositories($this->resource);
 
     } elseif ($fields['payment_status'] == 'Refunded') {
       // we've received a refund

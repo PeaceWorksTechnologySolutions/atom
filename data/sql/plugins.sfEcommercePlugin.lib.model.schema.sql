@@ -31,6 +31,7 @@ CREATE TABLE `sale`
 	`transaction_date` VARCHAR(50),
 	`created_at` DATETIME  NOT NULL,
 	`updated_at` DATETIME  NOT NULL,
+	`last_processed_at` DATETIME,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `sale_FK_1`
 		FOREIGN KEY (`id`)
@@ -67,6 +68,31 @@ CREATE TABLE `sale_resource`
 		REFERENCES `information_object` (`id`),
 	INDEX `sale_resource_FI_3` (`repository_id`),
 	CONSTRAINT `sale_resource_FK_3`
+		FOREIGN KEY (`repository_id`)
+		REFERENCES `repository` (`id`)
+)Engine=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- user_ecommerce_settings
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user_ecommerce_settings`;
+
+
+CREATE TABLE `user_ecommerce_settings`
+(
+	`user_id` INTEGER,
+	`repository_id` INTEGER,
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`serial_number` INTEGER default 0 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `user_ecommerce_settings_FI_1` (`user_id`),
+	CONSTRAINT `user_ecommerce_settings_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
+		ON DELETE CASCADE,
+	INDEX `user_ecommerce_settings_FI_2` (`repository_id`),
+	CONSTRAINT `user_ecommerce_settings_FK_2`
 		FOREIGN KEY (`repository_id`)
 		REFERENCES `repository` (`id`)
 )Engine=InnoDB;

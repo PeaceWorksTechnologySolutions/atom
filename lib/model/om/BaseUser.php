@@ -99,6 +99,11 @@ abstract class BaseUser extends QubitActor implements ArrayAccess
       return true;
     }
 
+    if ('userEcommerceSettingss' == $name)
+    {
+      return true;
+    }
+
     throw new sfException("Unknown record property \"$name\" on \"".get_class($this).'"');
   }
 
@@ -171,6 +176,23 @@ abstract class BaseUser extends QubitActor implements ArrayAccess
       return $this->refFkValues['notes'];
     }
 
+    if ('userEcommerceSettingss' == $name)
+    {
+      if (!isset($this->refFkValues['userEcommerceSettingss']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['userEcommerceSettingss'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['userEcommerceSettingss'] = self::getuserEcommerceSettingssById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['userEcommerceSettingss'];
+    }
+
     throw new sfException("Unknown record property \"$name\" on \"".get_class($this).'"');
   }
 
@@ -232,5 +254,25 @@ abstract class BaseUser extends QubitActor implements ArrayAccess
   public function addnotesCriteria(Criteria $criteria)
   {
     return self::addnotesCriteriaById($criteria, $this->id);
+  }
+
+  public static function adduserEcommerceSettingssCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitUserEcommerceSettings::USER_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getuserEcommerceSettingssById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::adduserEcommerceSettingssCriteriaById($criteria, $id);
+
+    return QubitUserEcommerceSettings::get($criteria, $options);
+  }
+
+  public function adduserEcommerceSettingssCriteria(Criteria $criteria)
+  {
+    return self::adduserEcommerceSettingssCriteriaById($criteria, $this->id);
   }
 }

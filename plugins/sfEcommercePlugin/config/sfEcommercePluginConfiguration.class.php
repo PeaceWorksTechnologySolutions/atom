@@ -27,6 +27,11 @@ class sfEcommercePluginConfiguration extends sfPluginConfiguration
    * @see sfPluginConfiguration
    */
 
+  public function contextLoadFactories(sfEvent $event)
+  {
+    $this->create_menu();
+  }
+
   public function setup() // loads handler if needed
   {
     if ($this->configuration instanceof sfApplicationConfiguration)
@@ -37,9 +42,6 @@ class sfEcommercePluginConfiguration extends sfPluginConfiguration
       $configCache->checkConfig('config/ecommerce.yml');
     }
   }
-
-
-
 
   public function initialize()
   {
@@ -52,7 +54,29 @@ class sfEcommercePluginConfiguration extends sfPluginConfiguration
       $configCache = $this->configuration->getConfigCache();
       include($configCache->checkConfig('config/ecommerce.yml'));
     }
+    $this->dispatcher->connect('context.load_factories', array($this, 'contextLoadFactories'));
+  }
 
+
+  public function create_menu() 
+  {
+    $criteria = new Criteria;
+    $criteria->add(QubitMenu::NAME, 'sfEcommerceUserSettings');
+    $menu = QubitMenu::getOne($criteria);
+    if (!isset($menu)) {
+      $criteria = new Criteria;
+      $criteria->add(QubitMenu::NAME, 'users');
+      $this->userAclMenu = null;
+      if (null !== $parent = QubitMenu::getOne($criteria))
+      {
+        $menu = new QubitMenu;
+        $menu['parentId'] = $parent->getId();
+        $menu['label'] = 'Ecommerce Settings';
+        $menu['name'] = 'sfEcommerceUserSettings';
+        $menu['path'] = 'sfEcommercePlugin/indexUserSettings?slug=%currentSlug%';
+        $menu->save();
+      }
+    }
   }
 
 }

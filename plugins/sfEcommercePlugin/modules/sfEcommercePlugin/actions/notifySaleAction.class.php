@@ -17,16 +17,14 @@
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class sfEcommercePluginRefundPaymentAction extends sfEcommercePaymentAction
+class sfEcommercePluginNotifySaleAction extends sfEcommercePaymentAction
 {
-  //public static $check_user = false;  // remove this when done testing
+  public static $check_user = false;  // remove this when done testing
 
   public function execute($request)
   {
     parent::execute($request);
 
-    $this->refundResources(array(446), 'refund another item');
+    $this->repos = sfEcommercePlugin::notify_repositories($this->resource);
   }
-
-
 }

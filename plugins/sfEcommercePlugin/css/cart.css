@@ -50,6 +50,39 @@ section#cart div.cart_action {
     text-align: right;
 }
 
-section#cart_full .cart_thumbnail img {
+section#cart_full .cart_thumbnail img ,
+fieldset#downloadPhotos .cart_thumbnail img {
     width: 200px;
 }
+
+div.space_before {
+  padding-top: 1em;
+}
+
+div#customerInformation {
+  margin: 1em 1em 1em 1em;
+}
+
+fieldset#orderPhotos .cart_item {
+  margin: 1em 1em 1em 1em;
+}
+
+div.confirm select {
+  width: 10em;
+}
+
+fieldset#note textarea {
+  width: 70em;
+  height: 10em;
+}
+
+div#instructions {
+  margin-top: 1em;
+}
+
+div.download_all {
+  margin: 3em 0em 3em 202px;
+  padding-left: 1em;
+  font-weight: bold;
+}
+

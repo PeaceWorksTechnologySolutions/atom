@@ -42,12 +42,14 @@ class sfPluginAdminPluginPluginsAction extends sfAction
     $pluginPaths = $configuration->getAllPluginPaths();
     foreach (sfPluginAdminPluginConfiguration::$pluginNames as $name)
     {
+      //sfContext::getInstance()->getLogger()->warning($name);
       unset($pluginPaths[$name]);
     }
 
     $this->plugins = array();
     foreach ($pluginPaths as $name => $path)
     {
+      //sfContext::getInstance()->getLogger()->warning($path);
       $className = $name.'Configuration';
       if (sfConfig::get('sf_plugins_dir') == substr($path, 0, strlen(sfConfig::get('sf_plugins_dir'))) && is_readable($classPath = $path.'/config/'.$className.'.class.php'))
       {

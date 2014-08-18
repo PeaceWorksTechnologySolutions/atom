@@ -15,6 +15,9 @@ prod:
 
 
 all:
+  email_from_address: autosender@cmac.canoe.peaceworks.ca
+  email_from_name: Jason Hildebrand
+
   default_country: CA
   fill_checkout: true
 

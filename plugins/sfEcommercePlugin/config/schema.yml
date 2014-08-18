@@ -21,6 +21,7 @@ propel:
     transaction_date: varchar(50)
     created_at:
     updated_at:
+    last_processed_at: timestamp
 
   sale_resource:
     id: { type: integer, required: true, primaryKey: true, autoIncrement: true }
@@ -30,3 +31,7 @@ propel:
     price: varchar(20)
     processing_status: varchar(50)
     refund_transaction_id: varchar(50)
+
+  user_ecommerce_settings:
+    user_id: { type: integer, foreignTable: user, foreignReference: id, onDelete: cascade }
+    repository_id: { type: integer, foreignTable: repository, foreignReference: id }
