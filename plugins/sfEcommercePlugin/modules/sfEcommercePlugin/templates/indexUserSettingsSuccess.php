@@ -1,3 +1,5 @@
+<?php use_stylesheet('/plugins/sfEcommercePlugin/css/ecommerce.css'); ?>
+
 <h1><?php echo __('User %1%', array('%1%' => render_title($resource))) ?></h1>
 
 <?php echo get_component('user', 'aclMenu') ?>
@@ -11,6 +13,14 @@
     <?php echo render_show(__('User name'), $resource->username.($sf_user->user === $resource ? ' ('.__('you').')' : '')) ?>
 
     <?php echo render_show(__('Repository'), $resource->userEcommerceSettingss[0]->repository) ?>
+
+    <?php echo render_show(__('Vacation Enabled'), $resource->userEcommerceSettingss[0]->vacationEnabled ? "Yes" : "No") ?>
+
+    <div class="field vacation_message">
+      <h3>Vacation Message</h3>
+      <div class="message"><?php echo '<pre>' . $resource->userEcommerceSettingss[0]->vacationMessage . '</pre>' ?>
+      </div>
+    </div>
 
 
   </section>

@@ -16,3 +16,8 @@ body.browseOrders div.filter select {
 body.browseOrders div.span6 {
   width: 250px;
 }
+
+body.indexUserSettings div.vacation_message div.message {
+  white-space: pre;
+  width: 50em; 
+}

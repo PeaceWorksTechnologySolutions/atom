@@ -9,6 +9,8 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
 
     USER_ID = 'user_ecommerce_settings.USER_ID',
     REPOSITORY_ID = 'user_ecommerce_settings.REPOSITORY_ID',
+    VACATION_ENABLED = 'user_ecommerce_settings.VACATION_ENABLED',
+    VACATION_MESSAGE = 'user_ecommerce_settings.VACATION_MESSAGE',
     ID = 'user_ecommerce_settings.ID',
     SERIAL_NUMBER = 'user_ecommerce_settings.SERIAL_NUMBER';
 
@@ -16,6 +18,8 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
   {
     $criteria->addSelectColumn(QubitUserEcommerceSettings::USER_ID);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::REPOSITORY_ID);
+    $criteria->addSelectColumn(QubitUserEcommerceSettings::VACATION_ENABLED);
+    $criteria->addSelectColumn(QubitUserEcommerceSettings::VACATION_MESSAGE);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::ID);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::SERIAL_NUMBER);
 
@@ -32,7 +36,7 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
   public static function getFromRow(array $row)
   {
     $keys = array();
-    $keys['id'] = $row[2];
+    $keys['id'] = $row[4];
 
     $key = serialize($keys);
     if (!isset(self::$userEcommerceSettingss[$key]))

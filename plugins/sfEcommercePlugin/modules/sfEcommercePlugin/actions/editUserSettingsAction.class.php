@@ -33,6 +33,8 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
   public static
     $NAMES = array(
       'repository',
+      'vacationEnabled',
+      'vacationMessage',
       );
 
   protected function earlyExecute()
@@ -67,6 +69,20 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
 
         break;
 
+      case 'vacationEnabled':
+        $this->form->setValidator($name, new sfValidatorBoolean());
+        $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
+        if ($this->resource->vacationEnabled) {
+          $this->form->setDefault($name, true);
+        }
+        break;
+
+      case 'vacationMessage':
+        $this->form->setDefault('vacationMessage', $this->resource->vacationMessage);
+        $this->form->setValidator('vacationMessage', new sfValidatorString);
+        $this->form->setWidget('vacationMessage', new sfWidgetFormTextarea);
+        break;
+
       default:
 
         return parent::addField($name);
@@ -77,8 +93,15 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
   {
     switch ($field->getName())
     {
+
       case 'repository':
         $this->resource->setRepository(QubitRepository::getById($this->form->getValue('repository')));
+        break;
+
+      case 'vacationEnabled':
+        if ($this->form->getValue('vacationEnabled') == 1) {
+          $this->resource->setVacationEnabled(true);
+        }
         break;
 
       default:
@@ -95,6 +118,7 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
       $this->form->bind($request->getPostParameters());
       if ($this->form->isValid())
       {
+        $this->resource->setVacationEnabled(false); // initialize to false.  processField may set to true. 
         $this->processForm();
 
         $this->resource->setUser($this->user);

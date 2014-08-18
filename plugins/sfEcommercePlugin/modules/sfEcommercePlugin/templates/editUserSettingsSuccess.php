@@ -19,6 +19,14 @@
 
         <?php echo render_field($form->repository, $resource) ?>
 
+        <div class="form-item">
+            <?php echo $form->vacationEnabled->renderError() ?>
+            <?php echo render_field($form->vacationEnabled, $resource, array('onlyInput' => true)) ?>
+             Vacation enabled
+        </div>
+
+        <?php echo render_field($form->vacationMessage, $resource) ?>
+
       </fieldset>
 
     </section>
