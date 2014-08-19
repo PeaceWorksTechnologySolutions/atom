@@ -37,14 +37,14 @@ class sfEcommercePluginBrowseOrdersAction extends sfAction
     $user_repo = $settings->repository->getId();
 
     $criteria = new Criteria;
-    $criteria->add(QubitSale::PROCESSING_STATUS, 'pending_payment', Criteria::NOT_EQUAL);
     $subselect = "sale.id in (select sale_id from sale_resource sr where sr.sale_id = sale.id and sr.repository_id = " . $user_repo . ")";
     $criteria->add(QubitSale::ID, $subselect, Criteria::CUSTOM);
 
     if (!isset($request->filter) || $request->filter == 'paid') {
-      $criteria->add(QubitSale::PROCESSING_STATUS, $request->filter, Criteria::EQUAL);
+      $criteria->add(QubitSale::PROCESSING_STATUS, 'paid', Criteria::EQUAL);
       $this->selected_filter = 'paid';
     } else if ($request->filter == 'all') {
+      $criteria->add(QubitSale::PROCESSING_STATUS, 'pending_payment', Criteria::NOT_EQUAL);
       $this->selected_filter = 'all';
     } else {
       $criteria->add(QubitSale::PROCESSING_STATUS, $request->filter, Criteria::EQUAL);
@@ -57,12 +57,12 @@ class sfEcommercePluginBrowseOrdersAction extends sfAction
     {
       // search for order # (if numeric), or for customer name
       if (is_numeric($request->subquery)) {
-        $criteria->add(QubitSale::ID, (int)$request->subquery);
+        $criteria->addAnd(QubitSale::ID, (int)$request->subquery);
       } else {
         $conn = Propel::getConnection();
         $subquery = "%" . $request->subquery . "%";
         $sql = "lower(concat(sale.first_name, ' ', sale.last_name)) like lower(" . $conn->quote($subquery) . ")";
-        $criteria->add(QubitSale::ID, $sql, Criteria::CUSTOM);
+        $criteria->addAnd(QubitSale::ID, $sql, Criteria::CUSTOM);
       }
     }
 
