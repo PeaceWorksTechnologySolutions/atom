@@ -58,6 +58,7 @@ class RepositoryTableMap extends TableMap {
     $this->addRelation('repositoryI18n', 'repositoryI18n', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', null);
     $this->addRelation('saleResource', 'saleResource', RelationMap::ONE_TO_MANY, array('id' => 'repository_id', ), null, null);
     $this->addRelation('userEcommerceSettings', 'userEcommerceSettings', RelationMap::ONE_TO_MANY, array('id' => 'repository_id', ), null, null);
+    $this->addRelation('ecommerceTransaction', 'ecommerceTransaction', RelationMap::ONE_TO_MANY, array('id' => 'repository_id', ), null, null);
 	} // buildRelations()
 
 } // RepositoryTableMap

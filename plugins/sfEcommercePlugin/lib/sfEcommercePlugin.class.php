@@ -153,4 +153,100 @@ EOF
     }
   }
 
+  /* amount is a numeric amount (as a string)
+     ratios is an array of percentages (as strings)
+     Credit: http://stackoverflow.com/questions/1679292/proof-that-fowlers-money-allocation-algorithm-is-correct
+  */
+  public static function allocate_money($amount, $ratios)
+  {
+    $total = '0';
+    foreach ($ratios as $ratio) {
+      $total = bcadd($total, $ratio, 10);
+    }
+
+    $remainder = $amount;
+    $result = array();
+    foreach ($ratios as $ratio) {
+      $share = bcdiv(bcmul($amount, $ratio, 10), $total, 2);
+      $result[] = $share;
+      $remainder = bcsub($remainder, $share, 2);
+    }
+
+    for ($i = 0; $i < bcmul($remainder, 100); $i++) {
+        $result[$i] = bcadd($result[$i], '0.01', 2);
+    }
+    return $result;
+  }
+
+
+  public static function record_purchase_transactions($sale) 
+  {
+    $repos = sfEcommercePlugin::sale_resources_by_repository($sale);
+    $ratios = array();
+    $shares = array();
+    foreach ($repos as $repoid => $repo) {
+      $share = '0';
+      foreach ($repo['saleResources'] as $saleResource) {
+        $share = bcadd($share, $saleResource->price, 2);
+      }
+      print $repoid . ": " . $sale->totalAmount . " / " . $share . "\n";
+      $ratios[] = bcdiv($share, $sale->totalAmount, 10);
+      $shares[] = $share;
+    }
+    $fee_shares = sfEcommercePlugin::allocate_money($sale->transactionFee, $ratios);
+
+    $i = 0;
+    foreach ($repos as $repoid => $repo) {
+      $transaction = new QubitEcommerceTransaction();
+      $transaction->setSale($sale);
+      $transaction->setRepository($repo['repository']);
+      $transaction->setAmount($shares[$i]);
+      $transaction->setType('sale');
+      $transaction->save();
+
+      $transaction = new QubitEcommerceTransaction();
+      $transaction->setSale($sale);
+      $transaction->setRepository($repo['repository']);
+      $transaction->setAmount('-' . $fee_shares[$i]);
+      $transaction->setType('sale fees');
+      $transaction->save();
+
+      $i += 1;
+    }
+  }
+
+  public static function record_refund_transactions($sale, $refund_transaction_id, $refund_amount, $fee_amount)
+  {
+    $repos = array();
+    foreach ($sale->saleResources as $saleResource) {
+      if ($saleResource['refundTransactionId'] == $refund_transaction_id) {
+        $repos[$saleResource->repository->getId()] = $saleResource->repository;
+        $repo = $saleResource->repository;
+      }
+    }
+    if (count($repos) == 0) {
+      return;
+    } elseif (count($repos) > 1) {
+      sfContext::getInstance()->getLogger()->err("got refund transaction $refund_transaction_id which affects multiple repositories!");
+      return;
+    }
+
+    $transaction = new QubitEcommerceTransaction();
+    $transaction->setSale($sale);
+    $transaction->setRepository($repo);
+    $transaction->setAmount($refund_amount);
+    $transaction->setType('refund');
+    $transaction->save();
+
+    if ($fee_amount[0] == '-') {
+      $fee_amount = substr($fee_amount, 1);
+    }
+    $transaction = new QubitEcommerceTransaction();
+    $transaction->setSale($sale);
+    $transaction->setRepository($repo);
+    $transaction->setAmount($fee_amount);
+    $transaction->setType('fee refund');
+    $transaction->save();
+  }
+
 }

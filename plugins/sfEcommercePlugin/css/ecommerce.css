@@ -17,7 +17,34 @@ body.browseOrders div.span6 {
   width: 250px;
 }
 
+body.salesReport div.span6 {
+  width: auto;
+}
+
+body.salesReport table.yui-calendar {
+  width: 190px;
+}
+
+body.salesReport table.sales_stats {
+  margin-bottom: 2em;
+}
+
+body.salesReport table.sales_stats td {
+  text-align: right;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+body.salesReport table.sales_stats td.label {
+  font-style: italic;
+}
+
+body.salesReport table.sales_stats td.amount {
+  font-weight: bold;
+}
+
 body.indexUserSettings div.vacation_message div.message {
   white-space: pre;
   width: 50em; 
 }
+

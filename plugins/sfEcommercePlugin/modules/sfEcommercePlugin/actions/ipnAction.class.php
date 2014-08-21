@@ -83,6 +83,7 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       $this->resource['transactionDate'] = $fields['payment_date'];
       $this->resource['paidAt'] = date('Y-m-d H:i:s');
       $this->resource->save();
+      sfEcommercePlugin::record_purchase_transactions($this->resource);
       sfEcommercePlugin::notify_repositories($this->resource);
       sfEcommercePlugin::notify_customer($this->resource);
 
@@ -113,6 +114,7 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
         $this->resource['processingStatus'] = 'refunded';
         $this->resource->save();
       }
+      sfEcommercePlugin::record_refund_transactions($this->resource, $fields['txn_id'], $fields['mc_gross'], $fields['mc_fee']);
 
     } else {
       $this->logMessage("Received IPN with status '" . $fields['payment_status'] . "' which is not handled - aborting.", 'notice');
@@ -170,4 +172,5 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
     curl_close($ch);
     return $res;
   }
+
 }

@@ -41,7 +41,7 @@ class sfEcommercePluginPaymentAction extends sfEcommercePaymentAction
       $grand_total += $amount;
       if (array_key_exists($repo->identifier, $sale_items)) {
         $sale_items[$repo->identifier]['quantity'] += 1;
-        $sale_items[$repo->identifier]['total'] = $sale_items[$repo->identifier]['quantity'] * $amount;
+        $sale_items[$repo->identifier]['total'] = bcmul($sale_items[$repo->identifier]['quantity'], $amount);
       } else {
         $sale_items[$repo->identifier] = array('quantity' => 1, 'amount' => $amount, 'total' => $amount);
       }

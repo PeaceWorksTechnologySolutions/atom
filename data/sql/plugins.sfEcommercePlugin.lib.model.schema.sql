@@ -99,5 +99,33 @@ CREATE TABLE `user_ecommerce_settings`
 		REFERENCES `repository` (`id`)
 )Engine=InnoDB;
 
+#-----------------------------------------------------------------------------
+#-- ecommerce_transaction
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ecommerce_transaction`;
+
+
+CREATE TABLE `ecommerce_transaction`
+(
+	`repository_id` INTEGER,
+	`sale_id` INTEGER,
+	`amount` DECIMAL(15,2),
+	`type` VARCHAR(30),
+	`created_at` DATETIME,
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`serial_number` INTEGER default 0 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `ecommerce_transaction_FI_1` (`repository_id`),
+	CONSTRAINT `ecommerce_transaction_FK_1`
+		FOREIGN KEY (`repository_id`)
+		REFERENCES `repository` (`id`),
+	INDEX `ecommerce_transaction_FI_2` (`sale_id`),
+	CONSTRAINT `ecommerce_transaction_FK_2`
+		FOREIGN KEY (`sale_id`)
+		REFERENCES `sale` (`id`)
+		ON DELETE CASCADE
+)Engine=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

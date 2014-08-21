@@ -112,6 +112,11 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
       return true;
     }
 
+    if ('ecommerceTransactions' == $name)
+    {
+      return true;
+    }
+
     try
     {
       if (!$value = call_user_func_array(array($this->getCurrentrepositoryI18n($options), '__isset'), $args) && !empty($options['cultureFallback']))
@@ -212,6 +217,23 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
       }
 
       return $this->refFkValues['userEcommerceSettingss'];
+    }
+
+    if ('ecommerceTransactions' == $name)
+    {
+      if (!isset($this->refFkValues['ecommerceTransactions']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['ecommerceTransactions'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['ecommerceTransactions'] = self::getecommerceTransactionsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['ecommerceTransactions'];
     }
 
     try
@@ -380,6 +402,26 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
   public function adduserEcommerceSettingssCriteria(Criteria $criteria)
   {
     return self::adduserEcommerceSettingssCriteriaById($criteria, $this->id);
+  }
+
+  public static function addecommerceTransactionsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitEcommerceTransaction::REPOSITORY_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getecommerceTransactionsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addecommerceTransactionsCriteriaById($criteria, $id);
+
+    return QubitEcommerceTransaction::get($criteria, $options);
+  }
+
+  public function addecommerceTransactionsCriteria(Criteria $criteria)
+  {
+    return self::addecommerceTransactionsCriteriaById($criteria, $this->id);
   }
 
   public function getCurrentrepositoryI18n(array $options = array())

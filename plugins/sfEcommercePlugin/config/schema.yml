@@ -37,3 +37,11 @@ propel:
     repository_id: { type: integer, foreignTable: repository, foreignReference: id }
     vacation_enabled: { type: boolean, default: false }
     vacation_message: longvarchar
+
+  ecommerce_transaction:
+    repository_id: { type: integer, foreignTable: repository, foreignReference: id }
+    sale_id: { type: integer, foreignTable: sale, foreignReference: id, onDelete: cascade }
+    amount: { type: decimal, size: 15, scale: 2 }
+    type: varchar(30)
+    created_at: timestamp
+    

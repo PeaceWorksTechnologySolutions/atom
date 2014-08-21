@@ -1,0 +1,78 @@
+
+/* Print Style Sheet */
+@media print {
+body { 
+  background:white; 
+  color:black; 
+  margin:0 
+}
+
+@page {
+  margin: 1cm;
+}
+
+h1 {
+  font-size: 18pt;
+}
+
+div#update-check, header#top-bar, div#site-slogan, section.header-options {
+  display: none;
+}
+
+
+table.table-bordered {
+  margin: 1em 1em 1em 1em;
+  border-collapse: collapse;
+  border-color: #000000 #000000 #000000 -moz-use-text-color;
+  border-image: none;
+  border-radius: 4px;
+  border-style: solid solid solid none;
+  border-width: 1px 1px 1px 0;
+}
+
+table.table-bordered td {
+  padding: .25em;
+}
+
+table.th {
+  font-weight: bold;
+}
+
+.table th, .table td {
+    line-height: 20px;
+    padding: 8px;
+    text-align: left;
+}
+
+.table-bordered th, .table-bordered td {
+    border-left: 1px solid #000000;
+}
+.table th, .table td {
+    border-top: 1px solid #000000;
+    line-height: 20px;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+body.salesReport table.sales_stats td {
+  text-align: right;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+body.salesReport table.sales_stats td.label {
+  font-style: italic;
+}
+
+body.salesReport table.sales_stats td.amount {
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+}
+

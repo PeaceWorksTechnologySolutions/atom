@@ -117,6 +117,11 @@ abstract class BaseSale extends QubitObject implements ArrayAccess
       return true;
     }
 
+    if ('ecommerceTransactions' == $name)
+    {
+      return true;
+    }
+
     throw new sfException("Unknown record property \"$name\" on \"".get_class($this).'"');
   }
 
@@ -155,6 +160,23 @@ abstract class BaseSale extends QubitObject implements ArrayAccess
       return $this->refFkValues['saleResources'];
     }
 
+    if ('ecommerceTransactions' == $name)
+    {
+      if (!isset($this->refFkValues['ecommerceTransactions']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['ecommerceTransactions'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['ecommerceTransactions'] = self::getecommerceTransactionsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['ecommerceTransactions'];
+    }
+
     throw new sfException("Unknown record property \"$name\" on \"".get_class($this).'"');
   }
 
@@ -176,5 +198,25 @@ abstract class BaseSale extends QubitObject implements ArrayAccess
   public function addsaleResourcesCriteria(Criteria $criteria)
   {
     return self::addsaleResourcesCriteriaById($criteria, $this->id);
+  }
+
+  public static function addecommerceTransactionsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitEcommerceTransaction::SALE_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getecommerceTransactionsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addecommerceTransactionsCriteriaById($criteria, $id);
+
+    return QubitEcommerceTransaction::get($criteria, $options);
+  }
+
+  public function addecommerceTransactionsCriteria(Criteria $criteria)
+  {
+    return self::addecommerceTransactionsCriteriaById($criteria, $this->id);
   }
 }

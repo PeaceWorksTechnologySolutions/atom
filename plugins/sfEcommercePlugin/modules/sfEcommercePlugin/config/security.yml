@@ -13,3 +13,7 @@ editUserSettings:
 indexUserSettings:
   credentials: administrator
   is_secure: true
+
+salesReport:
+  credentials: administrator
+  is_secure: true

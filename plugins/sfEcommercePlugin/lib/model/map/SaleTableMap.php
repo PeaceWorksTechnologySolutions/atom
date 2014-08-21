@@ -66,6 +66,7 @@ class SaleTableMap extends TableMap {
 	{
     $this->addRelation('object', 'object', RelationMap::MANY_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
     $this->addRelation('saleResource', 'saleResource', RelationMap::ONE_TO_MANY, array('id' => 'sale_id', ), 'CASCADE', null);
+    $this->addRelation('ecommerceTransaction', 'ecommerceTransaction', RelationMap::ONE_TO_MANY, array('id' => 'sale_id', ), 'CASCADE', null);
 	} // buildRelations()
 
 } // SaleTableMap
