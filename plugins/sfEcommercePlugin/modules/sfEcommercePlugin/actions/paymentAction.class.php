@@ -34,11 +34,11 @@ class sfEcommercePluginPaymentAction extends sfEcommercePaymentAction
     }
 
     $sale_items = array();
-    $grand_total = 0;
+    $grand_total = '0';
     foreach ($this->resource->saleResources as $saleResource) {
       $repo = $saleResource->resource->getRepository(array('inherit' => true));
       $amount = sfEcommercePlugin::resource_price($saleResource->resource);
-      $grand_total += $amount;
+      $grand_total = bcadd($grand_total, $amount, 2);
       if (array_key_exists($repo->identifier, $sale_items)) {
         $sale_items[$repo->identifier]['quantity'] += 1;
         $sale_items[$repo->identifier]['total'] = bcmul($sale_items[$repo->identifier]['quantity'], $amount);
@@ -48,10 +48,20 @@ class sfEcommercePluginPaymentAction extends sfEcommercePaymentAction
     }
     $this->sale_items = $sale_items;
 
+    // calculate and add taxes
+    $tax_total = '0';
+    $this->taxes = sfEcommercePlugin::calculate_taxes($this->resource);
+    foreach ($this->taxes as $repo_identifier => $repo_taxes) {
+      foreach ($repo_taxes as $taxname => $taxinfo) {
+        $grand_total = bcadd($grand_total, $taxinfo['taxAmount'], 2);
+        $tax_total = bcadd($tax_total, $taxinfo['taxAmount'], 2);
+      }
+    }
+
     $this->logMessage(var_export($sale_items, true), 'notice');
 
-    // FIXME: calculate and add taxes!
-    $this->resource['totalAmount'] = round($grand_total, 2);
+    $this->resource['totalAmount'] = sfEcommercePlugin::bcround($grand_total, 2);
+    $this->taxAmount = sfEcommercePlugin::bcround($tax_total, 2);
     $this->resource->save();
 
   }

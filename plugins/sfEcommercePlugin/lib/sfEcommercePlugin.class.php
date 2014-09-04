@@ -153,8 +153,9 @@ EOF
     }
   }
 
-  /* amount is a numeric amount (as a string)
-     ratios is an array of percentages (as strings)
+  /* amount is a numeric amount (as a string) to be divided into shares
+     ratios is an array of share percentages (as strings)
+     Return: an array of dollar amounts which are guaranteed to total to the original amount.
      Credit: http://stackoverflow.com/questions/1679292/proof-that-fowlers-money-allocation-algorithm-is-correct
   */
   public static function allocate_money($amount, $ratios)
@@ -178,6 +179,32 @@ EOF
     return $result;
   }
 
+  /* 
+    Credit: http://stackoverflow.com/questions/1642614/how-to-ceil-floor-and-round-bcmath-numbers
+  */
+  /*
+  assert(bcround('3', 0) == '3');  // true
+  assert(bcround('3.4', 0) == '3'); // true
+  assert(bcround('3.5', 0) == '4'); // true
+  assert(bcround('3.6', 0) == '4');  // true
+  assert(bcround('1.95583', 1) == '2.0'); // true
+  assert(bcround('1.94999', 1) == '1.9'); // true
+  assert(bcround('1.95583', 2) == '1.96'); // true
+  assert(bcround('1.95499', 2) == '1.95'); // true
+  assert(bcround('5.045', 2) == '5.05'); // true
+  assert(bcround('5.055', 2) == '5.06'); // true
+  assert(bcround('9.999', 2) == '10.00'); // true
+  */
+
+  public static function bcround($number, $precision = 0)
+  {
+      if (strpos($number, '.') !== false) {
+          if ($number[0] != '-') return bcadd($number, '0.' . str_repeat('0', $precision) . '5', $precision);
+          return bcsub($number, '0.' . str_repeat('0', $precision) . '5', $precision);
+      }
+      return $number;
+  }
+
 
   public static function record_purchase_transactions($sale) 
   {
@@ -189,11 +216,12 @@ EOF
       foreach ($repo['saleResources'] as $saleResource) {
         $share = bcadd($share, $saleResource->price, 2);
       }
-      print $repoid . ": " . $sale->totalAmount . " / " . $share . "\n";
       $ratios[] = bcdiv($share, $sale->totalAmount, 10);
       $shares[] = $share;
     }
     $fee_shares = sfEcommercePlugin::allocate_money($sale->transactionFee, $ratios);
+    $taxes = sfEcommercePlugin::calculate_taxes($sale);
+
 
     $i = 0;
     foreach ($repos as $repoid => $repo) {
@@ -211,6 +239,15 @@ EOF
       $transaction->setType('sale fees');
       $transaction->save();
 
+      foreach ($taxes[$repo['repository']->identifier] as $taxname => $taxinfo) {
+        $transaction = new QubitEcommerceTransaction();
+        $transaction->setSale($sale);
+        $transaction->setRepository($repo['repository']);
+        $transaction->setAmount($taxinfo['taxAmount']);
+        $transaction->setType('tax ' . $taxname);
+        $transaction->save();
+      }
+
       $i += 1;
     }
   }
@@ -218,12 +255,15 @@ EOF
   public static function record_refund_transactions($sale, $refund_transaction_id, $refund_amount, $fee_amount)
   {
     $repos = array();
+    $refund_resources = array();
     foreach ($sale->saleResources as $saleResource) {
       if ($saleResource['refundTransactionId'] == $refund_transaction_id) {
         $repos[$saleResource->repository->getId()] = $saleResource->repository;
         $repo = $saleResource->repository;
+        $refund_resources[] = $saleResource->resource->getId();
       }
     }
+
     if (count($repos) == 0) {
       return;
     } elseif (count($repos) > 1) {
@@ -247,6 +287,126 @@ EOF
     $transaction->setAmount($fee_amount);
     $transaction->setType('fee refund');
     $transaction->save();
+
+    $taxes = sfEcommercePlugin::calculate_taxes_on_resources($sale, $refund_resources);
+    foreach ($taxes as $taxname => $taxamount) {
+      $transaction = new QubitEcommerceTransaction();
+      $transaction->setSale($sale);
+      $transaction->setRepository($repo);
+      $transaction->setAmount('-' . $taxamount);
+      $transaction->setType('tax refund ' . $taxname);
+      $transaction->save();
+    }
   }
 
+  public static function set_applicable_taxes($sale)
+  {
+    // determine which taxes (and rates) apply to each resource in the sale.
+    // store this information in each SaleResource records.
+
+    $repos = sfEcommercePlugin::sale_resources_by_repository($sale);
+    foreach ($repos as $repoid => $repo) {
+      foreach ($repo['saleResources'] as $saleResource) {
+        sfEcommercePlugin::set_applicable_taxes_for_resource($sale, $saleResource, $repo['repository']);
+      }
+    }
+
+    //sfEcommerceTaxes::calculate_taxes($this->resource);
+  }
+
+  public static function set_applicable_taxes_for_resource($sale, $saleResource, $repo)
+  {
+    $taxes = sfEcommerceTaxes::determine_taxes($sale, $saleResource, $repo, $taxname);
+    $i = 1;
+    foreach ($taxes as $taxname => $rate) {
+      if (isset($rate) && $rate != '0') {
+        $saleResource["tax" . $i . "Name"] = $taxname;
+        $saleResource["tax" . $i . "Rate"] = $rate;
+        $saleResource->save();
+        $i += 1;
+      }
+    }
+  }
+
+  // Calculate total tax amount on a subset of resources (passed an an array of resource IDs) of a sale.
+  public static function calculate_taxes_on_resources($sale, $resource_ids)
+  {
+    $taxes = array();
+
+    foreach ($sale->saleResources as $saleResource) {
+      if (in_array($saleResource->resource->getId(), $resource_ids)) {
+        foreach (array('tax1', 'tax2') as $tax) {
+          if (!empty($saleResource[$tax . 'Name'])) {
+            $taxname = $saleResource[$tax . 'Name'];
+            $rate = $saleResource[$tax . 'Rate'];
+            if (!isset($taxes[$taxname])) {
+              $taxes[$taxname] = '0';
+            }
+            $rate = bcdiv($rate, 100, 4);
+            $amount = bcmul($rate, $saleResource['price'], 4);
+            $taxes[$taxname] = bcadd($taxes[$taxname], $amount, 4);
+          }
+        }
+      }
+    }
+    // round to 2 decimal places
+    foreach ($taxes as $taxname => $amount) {
+      $taxes[$taxname] = sfEcommercePlugin::bcround($amount, 2);
+    }
+    return $taxes;
+  }
+
+  public static function calculate_taxes($sale)
+  {
+    // based on the taxes and rates set in the SaleResource records,
+    // calculate the taxes for each repository.
+    $repos = sfEcommercePlugin::sale_resources_by_repository($sale);
+    $result = array();
+    foreach ($repos as $repoid => $repo) {
+      $taxes = array();
+
+      // compile an array of taxes, their rates, and dollar amounts on which they apply.
+      foreach ($repo['saleResources'] as $saleResource) {
+        foreach (array('tax1', 'tax2') as $tax) {
+          if (!empty($saleResource[$tax . 'Name'])) {
+            $taxname = $saleResource[$tax . 'Name'];
+            $rate = $saleResource[$tax . 'Rate'];
+            if (isset($taxes[$taxname])) {
+              assert($taxes[$taxname]['rate'] == $rate);
+            } else {
+              $taxes[$taxname]['rate'] = $rate;
+              $taxes[$taxname]['onAmount'] = '0';
+            }
+            $taxes[$taxname]['onAmount'] = bcadd($taxes[$taxname]['onAmount'], $saleResource->price, 2);
+          }
+        }
+      }
+
+      // now calculate the total tax amounts
+      foreach ($taxes as $taxname => $unused) {
+        $amount = bcmul(bcdiv($taxes[$taxname]['rate'], 100, 4), $taxes[$taxname]['onAmount'], 4);
+        $taxes[$taxname]['taxAmount'] = sfEcommercePlugin::bcround($amount, 2);
+      }
+      $result[$repo['repository']->identifier] = $taxes;
+    }
+    return $result;
+  }
+
+  public static function country_subdivisions($country_id)
+  {
+    // This file comes from http://www.geonames.org/
+    // Direct URL: http://download.geonames.org/export/dump/admin1CodesASCII.txt
+    $handle = fopen(dirname(__FILE__) . "/admin1CodesASCII.txt", "r");
+    $subdivisions = array();
+    if ($handle) {
+      while (($line = fgets($handle)) !== false) {
+        if (strpos($line, $country_id . ".") === 0) {
+          $parts = explode("\t", $line);
+          $subdivisions[] = $parts[1];
+        }
+      }
+    }
+    sort($subdivisions);
+    return $subdivisions;
+  }
 }

@@ -40,10 +40,11 @@
     <tr><td class="label">Total orders</td><td></td><td class="amount"><?php echo $stats['total_orders'] ?></td></tr>
     <tr><td class="label">Photos sold</td><td></td><td class="amount"><?php echo $stats['photos_sold'] ?></td></tr>
     <tr><td class="label">Gross sales</td><td></td><td class="amount"><?php echo "$" . $stats['gross_sales'] ?></td></tr>
-  <!-- FIXME: photo sales -->
-  <!-- FIXME: tax1 amount -->
-  <!-- FIXME: tax2 amount -->
-    <tr><td></td><td class="label">Fees</td><td class="amount"><?php echo "$" . $stats['fees'] ?></td></tr>
+    <tr><td></td><td class="label">Item sales</td><td class="amount"><?php echo "$" . $stats['item_sales'] ?></td></tr>
+  <?php foreach ($stats['taxes'] as $taxname => $taxamount) { ?>
+    <tr><td></td><td class="label"><?php echo $taxname ?></td><td class="amount"><?php echo "$" . $taxamount ?></td></tr>
+  <?php } ?>
+    <tr><td></td><td class="label">Fees</td><td class="amount"><?php echo "($" . $stats['fees'] . ")" ?></td></tr>
     <tr><td class="label">Net Sales</td><td></td><td class="amount"><?php echo "$" . $stats['net_total'] ?></td></tr>
   </table>
   <table class="table table-bordered">
@@ -56,7 +57,7 @@
           <?php echo __('Sale ID') ?>
         </th>
         <th>
-          <?php echo __('Type') ?>
+          <?php echo __('Description') ?>
         </th>
         <th>
           <?php echo __('Amount') ?>

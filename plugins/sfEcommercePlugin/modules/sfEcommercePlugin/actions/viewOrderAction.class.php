@@ -138,12 +138,16 @@ class sfEcommercePluginViewOrderAction extends sfAction
   public function refundResources($refund_resources, $note) 
   {
     $refund_ids = array();
-    $total = 0;
+    $total = '0';
     foreach ($this->resource->saleResources as $saleResource) {
       if (in_array($saleResource->resource->getId(), $refund_resources)) {
-        $total += floatval($saleResource['price']);
+        $total = bcadd($total, $saleResource['price'], 4);
         $refund_ids[] = $saleResource->resource->getId();
       }
+    }
+    $taxes = sfEcommercePlugin::calculate_taxes_on_resources($this->resource, $refund_resources);
+    foreach ($taxes as $taxname => $taxamount) {
+      $total = bcadd($total, $taxamount, 4);
     }
 
     // is it a full refund or partial?
@@ -162,7 +166,7 @@ class sfEcommercePluginViewOrderAction extends sfAction
            "&REFUNDTYPE=" . $type;
 
     if ($type == 'Partial') {
-      $req .= "&AMT=" . number_format(round($total, 2), 2, ".", "");
+      $req .= "&AMT=" . sfEcommercePlugin::bcround($total, 2);
       $req .= "&CURRENCYCODE=CAD";
       $req .= "&NOTE=" . $note;
     }

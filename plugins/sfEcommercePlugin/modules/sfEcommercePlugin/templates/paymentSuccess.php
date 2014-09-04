@@ -17,8 +17,7 @@
               $i += 1;
             } 
       ?>
-
-      <input type="hidden" name="tax_cart" value="0"/> <!-- FIXME! -->
+      <input type="hidden" name="tax_cart" value="<?php echo $taxAmount ?>"/>
       <input type="hidden" name="charset" value="utf-8">
       <input type="hidden" name="cmd" value="_cart"/>
       <input type="hidden" name="upload" value="1"/>

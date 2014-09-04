@@ -29,6 +29,10 @@ propel:
     resource_id: { type: integer, foreignTable: information_object, foreignReference: id }
     repository_id: { type: integer, foreignTable: repository, foreignReference: id }
     price: varchar(20)
+    tax1_name: varchar(10)
+    tax1_rate: varchar(10)
+    tax2_name: varchar(10)
+    tax2_rate: varchar(10)
     processing_status: varchar(50)
     refund_transaction_id: varchar(50)
 

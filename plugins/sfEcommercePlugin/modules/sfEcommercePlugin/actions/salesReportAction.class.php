@@ -80,6 +80,13 @@ class sfEcommercePluginSalesReportAction extends sfAction
     $stats = array_merge($stats, $result[0]);
 
     $criteria = $this->build_criteria($request);
+    $criteria->addSelectColumn('SUM(amount) as item_sales');
+    $criteria->add(QubitEcommerceTransaction::TYPE, 'sale');
+    $criteria->addOr(QubitEcommerceTransaction::TYPE, 'refund');
+    $result = BasePeer::doSelect($criteria)->fetchAll(PDO::FETCH_ASSOC);
+    $stats = array_merge($stats, $result[0]);
+
+    $criteria = $this->build_criteria($request);
     $criteria->addSelectColumn('-SUM(amount) as fees');
     $criteria->add(QubitEcommerceTransaction::TYPE, '%fee%', Criteria::LIKE);
     $result = BasePeer::doSelect($criteria)->fetchAll(PDO::FETCH_ASSOC);
@@ -94,6 +101,23 @@ class sfEcommercePluginSalesReportAction extends sfAction
     $result = BasePeer::doSelect($criteria)->fetchAll(PDO::FETCH_ASSOC);
     $stats = array_merge($stats, $result[0]);
 
+    $criteria = $this->build_criteria($request);
+    $criteria->add(QubitEcommerceTransaction::TYPE, 'tax %', Criteria::LIKE);
+    $criteria->addGroupByColumn('type');
+    $criteria->addSelectColumn('SUM(amount) as tax_total');
+    $criteria->addSelectColumn('type');
+    $result = BasePeer::doSelect($criteria)->fetchAll(PDO::FETCH_ASSOC);
+    $stats['taxes'] = array();
+    foreach ($result as $row) {
+      // type contains something like 'refund tax GST' or 'tax PST'
+      // in either case the tax name is at the end
+      $parts = explode(' ', $row['type']);
+      $taxname = $parts[count($parts) - 1];
+      if (!isset($stats['taxes'][$taxname])) {
+        $stats['taxes'][$taxname] = '0';
+      }
+      $stats['taxes'][$taxname] = bcadd($stats['taxes'][$taxname], $row['tax_total'], 2);
+    }
     return $stats;
   }
 

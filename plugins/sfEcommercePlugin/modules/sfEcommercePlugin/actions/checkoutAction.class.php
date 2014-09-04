@@ -72,7 +72,6 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       case 'lastName':
       case 'address1':
       case 'city':
-      case 'province':
       case 'postalCode':
       case 'email':
         $this->form->setDefault($name, $this->resource[$name]);
@@ -92,6 +91,17 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
         $this->form->setValidator('country', new sfValidatorI18nChoiceCountry);
         $this->form->setWidget('country', new sfWidgetFormI18nChoiceCountry(array('add_empty' => true, 'culture' => $this->context->user->getCulture())));
         $this->form->setDefault('country', sfe_array_get($this->resource, 'country', sfConfig::get("ecommerce_default_country")));
+        break;
+
+      case 'province':
+        $country = sfe_array_get($this->resource, 'country', sfConfig::get("ecommerce_default_country"));
+        $choices = array('' => 'Select...');
+        foreach (sfEcommercePlugin::country_subdivisions($country) as $region) {
+          $choices[$region] = $region;
+        }
+        $this->form->setDefault('province', $this->resource['province']);
+        $this->form->setValidator('province', new sfValidatorString(array('required' => true), array('required' => $this->context->i18n->__('This field is required.'))));
+        $this->form->setWidget('province', new sfWidgetFormSelect(array('choices' => $choices, 'multiple' => false)));
         break;
 
       case 'non_commercial':
@@ -151,6 +161,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
             $sale_resource->save();
             $i += 1;
         }
+        sfEcommercePlugin::set_applicable_taxes($this->resource);
 
         $this->logMessage("Created $i sale_resource records", 'notice');
 

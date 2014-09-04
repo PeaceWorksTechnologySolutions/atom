@@ -1,5 +1,6 @@
 <?php decorate_with('layout_1col.php') ?>
 <?php use_stylesheet('/plugins/sfEcommercePlugin/css/checkout.css'); ?>
+<?php use_javascript('/plugins/sfEcommercePlugin/js/subdivisions.js'); ?>
 
 <?php slot('title') ?>
   <h1>Check out</h1>
@@ -21,6 +22,7 @@
 
         <?php echo render_field($form->firstName, $resource) ?>
         <?php echo render_field($form->lastName, $resource) ?>
+        <?php echo render_field($form->country, $resource) ?>
         <?php echo render_field($form->address1, $resource) ?>
         <?php echo render_field($form->address2, $resource) ?>
         <?php echo render_field($form->city, $resource) ?>
@@ -30,7 +32,6 @@
           ->renderRow() ?>
 
         <?php echo render_field($form->postalCode, $resource) ?>
-        <?php echo render_field($form->country, $resource) ?>
         <?php echo render_field($form->email, $resource) ?>
         <?php echo render_field($form->phone, $resource) ?>
 

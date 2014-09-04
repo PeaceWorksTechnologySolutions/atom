@@ -12,6 +12,10 @@ abstract class BaseSaleResource implements ArrayAccess
     RESOURCE_ID = 'sale_resource.RESOURCE_ID',
     REPOSITORY_ID = 'sale_resource.REPOSITORY_ID',
     PRICE = 'sale_resource.PRICE',
+    TAX1_NAME = 'sale_resource.TAX1_NAME',
+    TAX1_RATE = 'sale_resource.TAX1_RATE',
+    TAX2_NAME = 'sale_resource.TAX2_NAME',
+    TAX2_RATE = 'sale_resource.TAX2_RATE',
     PROCESSING_STATUS = 'sale_resource.PROCESSING_STATUS',
     REFUND_TRANSACTION_ID = 'sale_resource.REFUND_TRANSACTION_ID',
     SERIAL_NUMBER = 'sale_resource.SERIAL_NUMBER';
@@ -23,6 +27,10 @@ abstract class BaseSaleResource implements ArrayAccess
     $criteria->addSelectColumn(QubitSaleResource::RESOURCE_ID);
     $criteria->addSelectColumn(QubitSaleResource::REPOSITORY_ID);
     $criteria->addSelectColumn(QubitSaleResource::PRICE);
+    $criteria->addSelectColumn(QubitSaleResource::TAX1_NAME);
+    $criteria->addSelectColumn(QubitSaleResource::TAX1_RATE);
+    $criteria->addSelectColumn(QubitSaleResource::TAX2_NAME);
+    $criteria->addSelectColumn(QubitSaleResource::TAX2_RATE);
     $criteria->addSelectColumn(QubitSaleResource::PROCESSING_STATUS);
     $criteria->addSelectColumn(QubitSaleResource::REFUND_TRANSACTION_ID);
     $criteria->addSelectColumn(QubitSaleResource::SERIAL_NUMBER);
