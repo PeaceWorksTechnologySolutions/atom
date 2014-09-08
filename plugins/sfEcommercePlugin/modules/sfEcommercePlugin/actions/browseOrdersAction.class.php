@@ -37,7 +37,11 @@ class sfEcommercePluginBrowseOrdersAction extends sfAction
     $user_repo = $settings->repository->getId();
 
     $criteria = new Criteria;
-    $subselect = "sale.id in (select sale_id from sale_resource sr where sr.sale_id = sale.id and sr.repository_id = " . $user_repo . ")";
+    $subselect = "sale.id in (select sale_id from sale_resource sr where sr.sale_id = sale.id and sr.repository_id = " . $user_repo;
+    if (!isset($request->filter) || $request->filter == 'paid') {
+      $subselect .= " and sr.processing_status = 'new' ";
+    }
+    $subselect .= ")";
     $criteria->add(QubitSale::ID, $subselect, Criteria::CUSTOM);
 
     if (!isset($request->filter) || $request->filter == 'paid') {
