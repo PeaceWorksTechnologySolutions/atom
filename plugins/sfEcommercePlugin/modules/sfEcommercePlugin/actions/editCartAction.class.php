@@ -27,6 +27,7 @@ class sfEcommercePluginEditCartAction extends sfAction
         return;
     }
     $this->resources = sfEcommercePlugin::fetch_cart_resources($cart_contents);
+    $this->subtotal = sfEcommercePlugin::subtotal($this->resources);
   }
 
 }

@@ -42,6 +42,13 @@
              I will only use these photos for non-commercial purposes.
         </div>
 
+      <div class="form-item payment-info">Payment will take place via PayPal.  You do <b>not</b> have to have a PayPal account -- simply choose "Don't have a PayPal account".</div>
+      <div class="form-item">
+        <?php echo image_tag('/plugins/sfEcommercePlugin/images/mastercard.gif') ?>
+        <?php echo image_tag('/plugins/sfEcommercePlugin/images/visa.gif') ?>
+        <?php echo image_tag('/plugins/sfEcommercePlugin/images/paypal.gif') ?>
+      </div>
+
       </fieldset>
 
     </section>

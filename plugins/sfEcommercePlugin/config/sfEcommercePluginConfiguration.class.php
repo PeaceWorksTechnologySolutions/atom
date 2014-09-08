@@ -30,6 +30,7 @@ class sfEcommercePluginConfiguration extends sfPluginConfiguration
   public function contextLoadFactories(sfEvent $event)
   {
     $this->create_menu();
+    sfContext::getInstance()->response->addStylesheet('/plugins/sfEcommercePlugin/css/cart.css');
   }
 
   public function setup() // loads handler if needed

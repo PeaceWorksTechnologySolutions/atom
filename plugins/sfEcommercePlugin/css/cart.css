@@ -1,3 +1,16 @@
+div#ecommerce-cart-bar > div {
+  position: relative;
+  float: left;
+}
+
+div#ecommerce-cart-bar .cart_item {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+div#ecommerce-cart-bar div.top-dropdown-container {
+  min-width: 300px;
+}
 
 .cart_item {
     margin-bottom: 1.5em;
@@ -40,12 +53,16 @@
     margin-top: 1em;
 }
 
-section#cart h3,
-section#cart div.cart_action {
+.cart-subtotal {
+  float: right;
+  display: inline;
+}
+
+div.cart_action {
     display: inline; 
 }
 
-section#cart div.cart_action {
+div.cart_action {
     margin-left: 2em;
     text-align: right;
 }

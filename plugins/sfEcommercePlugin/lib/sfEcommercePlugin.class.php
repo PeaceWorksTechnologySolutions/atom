@@ -26,6 +26,15 @@ class sfEcommercePlugin
     return $resources;
   }
 
+  public static function subtotal($resources)
+  {
+    $subtotal = '0';
+    foreach ($resources as $resource) {
+      $subtotal = bcadd($subtotal, sfEcommercePlugin::resource_price($resource), 2);
+    }
+    return $subtotal;
+  }
+
   public static function fetch_resource($slug) 
   {
     $criteria = new Criteria;

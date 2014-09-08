@@ -33,5 +33,6 @@ class sfEcommercePluginViewCartComponent extends sfComponent
         return;
     }
     $this->resources = sfEcommercePlugin::fetch_cart_resources($cart_contents);
+    $this->subtotal = sfEcommercePlugin::subtotal($this->resources);
   }
 }

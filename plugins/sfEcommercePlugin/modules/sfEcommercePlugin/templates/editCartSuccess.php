@@ -20,7 +20,8 @@
 <?php end_slot() ?>
 
 <?php slot('title') ?>
-  <h1>Cart</h1>
+  <h1>Edit Cart
+  </h1>
 <?php end_slot() ?>
 
 <?php slot('content') ?>
@@ -34,7 +35,7 @@
         </div>
         <div class="cart_full_item_description">
             <div class="cart_title">
-                <?php echo render_title($resource->title) ?>
+                <?php echo link_to(render_title($resource->title), array('module' => 'informationobject', 'slug' => $resource->slug)); ?>
             </div>
             <div class="cart_referenceCode">
                 <?php echo $resource->referenceCode ?>
@@ -50,6 +51,8 @@
     </div>
     <?php } ?>
   </div>
+  <h2 class="edit-cart-subtotal">Subtotal $<?php echo $subtotal?></h2>
+  <h2 class="cart_checkout"><?php echo link_to('Check out', array('module' => 'sfEcommercePlugin', 'action' => 'checkout')) ?></h2>
   <?php } else { ?>
     <p>Your cart is empty.</p>
   <?php } ?>

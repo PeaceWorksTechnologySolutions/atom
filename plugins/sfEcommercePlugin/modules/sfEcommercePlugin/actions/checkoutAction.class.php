@@ -165,9 +165,6 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
 
         $this->logMessage("Created $i sale_resource records", 'notice');
 
-        // clear the user's cart
-        $this->getUser()->setAttribute('cart_contents', array());
-
         $my_sales = $this->getUser()->getAttribute('my_sales', NULL);
         if (empty($my_sales)) {
           $my_sales = array();

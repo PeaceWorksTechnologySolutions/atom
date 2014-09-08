@@ -25,6 +25,9 @@ class sfEcommercePluginPendingPaymentAction extends sfEcommercePaymentAction
 
     // redirect if payment has completed
     if ($this->resource['processingStatus'] == 'paid') {
+      // clear the user's cart
+      $this->getUser()->setAttribute('cart_contents', array());
+
       $this->redirect(array('module' => 'staticpage', 'slug' => 'paymentComplete'));
     }
     
