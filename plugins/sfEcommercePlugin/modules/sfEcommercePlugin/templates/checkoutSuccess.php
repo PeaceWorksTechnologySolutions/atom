@@ -56,11 +56,11 @@
     <section class="actions">
       <ul>
         <?php if (isset($sf_request->getAttribute('sf_route')->resource)): ?>
-          <li><?php echo link_to(__('Cancel'), '@homepage', array('title' => __('Cancel'), 'class' => 'c-btn')) ?></li>
-          <li><input class="c-btn c-btn-submit" type="submit" value="<?php echo __('Save') ?>"/></li>
+          <li><div class="ecommerce-button ecommerce-button-non-default"><?php echo link_to(__('Cancel'), '@homepage', array('title' => __('Cancel'))) ?></div></li>
+          <li><div class="ecommerce-button"><input class="c-btn c-btn-submit" type="submit" value="<?php echo __('Save') ?>"/></div></li>
         <?php else: ?>
-          <li><?php echo link_to(__('Cancel'), '@homepage', array('title' => __('Cancel'), 'class' => 'c-btn')) ?></li>
-          <li><input class="c-btn c-btn-submit" type="submit" value="<?php echo __('Submit order') ?>"/></li>
+          <li><div class="ecommerce-button ecommerce-button-non-default"><?php echo link_to(__('Cancel'), '@homepage', array('title' => __('Cancel'))) ?></div></li>
+          <li><div class="ecommerce-button"><input type="submit" value="<?php echo __('Submit order') ?>"/></div></li>
         <?php endif; ?>
       </ul>
     </section>

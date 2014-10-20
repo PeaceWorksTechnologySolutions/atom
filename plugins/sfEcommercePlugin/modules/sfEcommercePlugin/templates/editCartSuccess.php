@@ -52,7 +52,7 @@
     <?php } ?>
   </div>
   <h2 class="edit-cart-subtotal">Subtotal $<?php echo $subtotal?></h2>
-  <h2 class="cart_checkout"><?php echo link_to('Check out', array('module' => 'sfEcommercePlugin', 'action' => 'checkout')) ?></h2>
+  <div class="cart_checkout ecommerce-button ecommerce-button-large"><?php echo link_to('Check out', array('module' => 'sfEcommercePlugin', 'action' => 'checkout')) ?></div>
   <?php } else { ?>
     <p>Your cart is empty.</p>
   <?php } ?>

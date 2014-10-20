@@ -103,3 +103,66 @@ div.download_all {
   font-weight: bold;
 }
 
+#context-menu div.cart div.price {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+div.ecommerce-button {
+  border-color: #cba957 #bf942a #aa8326;
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b) repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border-width: 1px;
+  border-radius: 3px;
+  border-style: solid;
+  margin-bottom: .5em;
+  margin-top: .5em;
+  display: inline-block;
+  padding: 0px 0px 0px 0px;
+  line-height: auto;
+}
+
+div.ecommerce-button-large {
+  font-size: 19.5px;
+}
+
+div.ecommerce-button a:hover,
+div.ecommerce-button input:hover {
+  background: linear-gradient(to bottom, #f7e9c6, #f0cf7a) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+div.ecommerce-button a:active,
+div.ecommerce-button input:active {
+  background: linear-gradient(to bottom, #f0cf7a, #f7e9c6) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+div.ecommerce-button a,
+#action-icons div.ecommerce-button a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: .25em .5em .25em .5em;
+}
+
+div.ecommerce-button input {
+  background-color: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: .25em .5em .25em .5em;
+}
+
+div.ecommerce-button-non-default {
+  background-color: #a0a0a0;
+  background: none;
+  margin-right: 4em;
+}
+
+body.checkout section.actions {
+  background-color: #ffffff;
+  box-shadow: none;
+  margin-top: 0px;
+}
+
+body.checkout section.actions div.ecommerce-button-non-default {
+  margin-right: 4em;
+}

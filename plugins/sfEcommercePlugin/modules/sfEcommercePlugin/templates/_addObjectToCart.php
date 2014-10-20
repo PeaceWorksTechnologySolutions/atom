@@ -3,8 +3,8 @@
     <?php 
         $price = sfEcommercePlugin::resource_price($resource);
         if ($may_disseminate && isset($price)) { ?>
-        <p>Price: <?php echo money_format("%.2n", $price) ?></p>
-        <p><?php echo link_to(__('Purchase this image'), array($resource, 'module' => 'sfEcommercePlugin', 'action' => 'addCart')) ?></p>
+        <div class="purchase ecommerce-button"><?php echo link_to(__('Purchase this image'), array($resource, 'module' => 'sfEcommercePlugin', 'action' => 'addCart')) ?></div>
+        <div class="price">Price: <?php echo money_format("%.2n", $price) ?></div>
     <?php } else { ?>
         <p>This photo has restrictions and may not be ordered online. Please contact the archives for permission to order the photo.</p>
     <?php } ?>
