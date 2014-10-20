@@ -10,7 +10,9 @@
         <?php $doc = $hit->getData() ?>
         <div class="carousel_item">
               <?php if (NULL !=  $doc['digitalObject']['thumbnailPath']): ?>
+                <div class="carousel_image_container">
                 <?php echo link_to(image_tag($doc['digitalObject']['thumbnailPath']), array('module' => 'informationobject', 'slug' => $doc['slug'])) ?>
+                </div>
               <?php else: ?>
                 <?php echo link_to(image_tag('question-mark'), array('module' => 'informationobject', 'slug' => $doc['slug'])) ?>
               <?php endif; ?>

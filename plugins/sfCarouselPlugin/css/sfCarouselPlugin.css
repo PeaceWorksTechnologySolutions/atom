@@ -16,6 +16,11 @@ div.carousel_item {
     float: left;
 }
 
+div.carousel_item .carousel_image_container {
+    max-height: 200px;
+    overflow: hidden;
+}
+
 div#carousel_left_arrow {
     position: absolute;
     top: 48px;
