@@ -1,4 +1,5 @@
 <div id="ecommerce-cart-menu">
+  <script type="text/javascript" src="/plugins/sfEcommercePlugin/js/cart.js"></script>
   <a class="top-item top-dropdown" data-target="#" data-toggle="dropdown">Cart (<?php echo count($resources) ?>)</a>
   
     <div class="top-dropdown-container">

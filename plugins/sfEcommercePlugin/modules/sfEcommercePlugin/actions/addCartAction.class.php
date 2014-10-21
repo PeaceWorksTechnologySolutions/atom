@@ -34,6 +34,7 @@ class sfEcommercePluginAddCartAction extends sfAction
     }
     $user->setAttribute('cart_contents', $cart);
 
-    $this->redirect($request->get('resource'));
+
+    $this->redirect(array('module' => 'informationobject', 'slug' => $slug, 'cart' => 'added'));
   }
 }
