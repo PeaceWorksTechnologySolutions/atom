@@ -95,7 +95,7 @@ class sfEcommercePluginViewOrderAction extends sfAction
     $body = "$reponame has processed your order.\n";
       
     if (!$this->resource->allResourcesProcessed()) {
-      $body .= "IMPORTANT: some photos in your order have not yet been processed.  This email only pertains to the photos ordered from $reponame.  You will receive further email when the remaining photos are processed.\n";
+      $body .= "\nIMPORTANT: some photos in your order have not yet been processed.  This email only pertains to the photos ordered from $reponame.  You will receive further email when the remaining photos are processed.\n\n";
     }
 
     if (count($rejected_resources) > 0) {
