@@ -105,6 +105,11 @@ div.download_all {
 
 #context-menu div.cart div.price {
   font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#context-menu div.cart div.resolution {
   margin-bottom: 1em;
 }
 
@@ -165,4 +170,9 @@ body.checkout section.actions {
 
 body.checkout section.actions div.ecommerce-button-non-default {
   margin-right: 4em;
+}
+
+div#ecommerce-cart-bar a.ecommerce-cart-highlight {
+  background-color: #f6ac00;
+  color: #ffffff;
 }

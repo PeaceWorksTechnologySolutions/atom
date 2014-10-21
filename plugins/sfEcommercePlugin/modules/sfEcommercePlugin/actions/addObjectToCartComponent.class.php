@@ -22,6 +22,10 @@ class sfEcommercePluginAddObjectToCartComponent extends sfComponent
   public function execute($request)
   {
     $this->may_disseminate = $this->right_is_allowed(true);
+    if ($this->may_disseminate) {
+      $this->resolution = $this->get_resolution();
+      $this->megapixels = (float)($this->resolution['width']) * (float)($this->resolution['height']) / 1000000.0;
+    }
   }
 
   public function right_is_allowed($default) 
@@ -36,5 +40,20 @@ class sfEcommercePluginAddObjectToCartComponent extends sfComponent
         }
     }
     return $default;
+  }
+
+  public function get_resolution() {
+    $filepath = $this->resource->digitalObjects[0]->getAbsolutePath();
+    $command = 'identify ' . $filepath;
+    exec($command, $output, $retval);
+    if ($retval == 0) {
+      $parts = explode(' ', $output[0]);
+      foreach ($parts as $value) {
+        if (preg_match('/^(\d+)x(\d+)$/', $value, $matches)) {
+          return array('width' => $matches[1], 'height' => $matches[2]); 
+        }
+      }
+    }
+    return NULL;
   }
 }
