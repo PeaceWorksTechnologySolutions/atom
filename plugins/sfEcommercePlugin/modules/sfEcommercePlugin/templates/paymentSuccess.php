@@ -10,7 +10,7 @@
           accept-charset="UTF=8" method="post">
       <?php $i = 1;
             foreach ($sale_items as $repo => $info) { ?>
-              <input type="hidden" name="item_name_<?php echo $i?>" value="Photo(s) from <?php echo $repo ?>"/>
+              <input type="hidden" name="item_name_<?php echo $i?>" value="Photo(s) from <?php echo htmlspecialchars($info['name']) ?>"/>
               <input type="hidden" name="amount_<?php echo $i?>" value="<?php echo $info['amount'] ?>"/>
               <input type="hidden" name="quantity_<?php echo $i?>" value="<?php echo $info['quantity'] ?>"/>
       <?php 

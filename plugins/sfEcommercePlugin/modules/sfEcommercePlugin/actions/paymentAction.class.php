@@ -43,7 +43,7 @@ class sfEcommercePluginPaymentAction extends sfEcommercePaymentAction
         $sale_items[$repo->identifier]['quantity'] += 1;
         $sale_items[$repo->identifier]['total'] = bcmul($sale_items[$repo->identifier]['quantity'], $amount);
       } else {
-        $sale_items[$repo->identifier] = array('quantity' => 1, 'amount' => $amount, 'total' => $amount);
+        $sale_items[$repo->identifier] = array('quantity' => 1, 'amount' => $amount, 'total' => $amount, 'name' => $repo->authorizedFormOfName);
       }
     }
     $this->sale_items = $sale_items;

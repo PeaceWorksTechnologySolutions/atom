@@ -67,7 +67,7 @@ class sfEcommercePluginViewOrderAction extends sfAction
 
         // refund any rejected resources
         if (count($rejected_resource_ids) > 0) {
-          $note = "Refund for " . count($rejected_resource_ids) . " photo(s) from " . $current_repo->identifier;
+          $note = "Refund for " . count($rejected_resource_ids) . " photo(s) from " . $current_repo->authorizedFormOfName;
           $this->refundResources($rejected_resource_ids, $note);
         }
   
@@ -91,7 +91,7 @@ class sfEcommercePluginViewOrderAction extends sfAction
   public function notifyCustomer($repository, $rejected_resources, $accepted_resources, $note)  
   {
     $site_title = sfConfig::get('app_siteTitle');
-    $reponame = strtoupper($repository->identifier);
+    $reponame = strtoupper($repository->authorizedFormOfName);
     $body = "$reponame has processed your order.\n";
       
     if (!$this->resource->allResourcesProcessed()) {

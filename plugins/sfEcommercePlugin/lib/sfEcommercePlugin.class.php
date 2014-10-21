@@ -124,7 +124,7 @@ EOF
     $site_title = sfConfig::get('app_siteTitle');
     $body = "Thank you for your order from $site_title.  Your order includes photos from the following archives:\n";
     foreach ($repos as $repoid => $repo) {
-      $body .= "    " . strtoupper($repo['repository']->identifier) . "\n";
+      $body .= "    " . strtoupper($repo['repository']->authorizedFormOfName) . "\n";
     }
     $body .= "\nWhen each archives processes your order, you will receive an email allowing you to download your photos.";
 
@@ -142,7 +142,7 @@ EOF
     if (count($on_vacation) > 0) {
       foreach($on_vacation as $repoid) {
         $repo = $repos[$repoid]['repository'];
-        $reponame = strtoupper($repo->identifier);
+        $reponame = strtoupper($repo->authorizedFormOfName);
         $body = "This email is in regard to your order from $site_title,";
         $body .= "which includes photos from $reponame.\n\n";
 
