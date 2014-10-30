@@ -22,7 +22,7 @@ class sfEcommercePluginAddObjectToCartComponent extends sfComponent
   public function execute($request)
   {
     $this->may_disseminate = $this->right_is_allowed(true);
-    if ($this->may_disseminate) {
+    if ($this->may_disseminate && $this->resource->digitalObjects[0]) {
       $this->resolution = $this->get_resolution();
       $this->megapixels = (float)($this->resolution['width']) * (float)($this->resolution['height']) / 1000000.0;
     }
