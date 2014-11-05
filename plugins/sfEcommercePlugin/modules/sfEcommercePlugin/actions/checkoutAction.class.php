@@ -45,6 +45,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       'postalCode',
       'country',
       'email',
+      'email2',
       'phone',
       'non_commercial',
       );
@@ -52,6 +53,14 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
   protected function earlyExecute()
   {
     $this->form->getValidatorSchema()->setOption('allow_extra_fields', true);
+    $this->form->getValidatorSchema()->setPostValidator(
+      new sfValidatorAnd(array(
+        new sfValidatorSchemaCompare('email', sfValidatorSchemaCompare::EQUAL, 'email2',
+          array(),
+          array('invalid' => 'Please enter the same email address twice.'))
+      ))
+    );
+
     $this->resource = new QubitSale;
   }
 
@@ -78,6 +87,11 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
         $this->form->setValidator($name, new sfValidatorString(array('required' => true), array('required' => $this->context->i18n->__('This field is required.'))));
         $this->form->setWidget($name, new sfWidgetFormInput);
 
+        break;
+
+      case 'email2':
+        $this->form->setValidator($name, new sfValidatorString(array('required' => true), array('required' => $this->context->i18n->__('This field is required.'))));
+        $this->form->setWidget($name, new sfWidgetFormInput);
         break;
 
       case 'address2':
@@ -186,6 +200,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
                 'postalCode' => 'r3g 1x1',
                 'country' => 'CA',
                 'email' => 'jason@peaceworks.ca',
+                'email2' => 'jason@peaceworks.ca',
                 'phone' => '204 775 1212',
                 'non_commercial' => true,
             ));

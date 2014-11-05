@@ -33,6 +33,11 @@
 
         <?php echo render_field($form->postalCode, $resource) ?>
         <?php echo render_field($form->email, $resource) ?>
+
+        <?php echo $form->email2
+          ->label(__('Confirm Email'))
+          ->renderRow() ?>
+
         <?php echo render_field($form->phone, $resource) ?>
 
 
