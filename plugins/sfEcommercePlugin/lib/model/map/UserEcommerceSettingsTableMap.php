@@ -40,6 +40,7 @@ class UserEcommerceSettingsTableMap extends TableMap {
 		$this->addForeignKey('REPOSITORY_ID', 'repositoryId', 'INTEGER', 'repository', 'ID', false, null, null);
 		$this->addColumn('VACATION_ENABLED', 'vacationEnabled', 'BOOLEAN', false, null, false);
 		$this->addColumn('VACATION_MESSAGE', 'vacationMessage', 'LONGVARCHAR', false, null, null);
+		$this->addColumn('ECOMMERCE_MASTER', 'ecommerceMaster', 'BOOLEAN', false, null, false);
 		$this->addPrimaryKey('ID', 'id', 'INTEGER', true, null, null);
 		$this->addColumn('SERIAL_NUMBER', 'serialNumber', 'INTEGER', true, null, 0);
 		// validators

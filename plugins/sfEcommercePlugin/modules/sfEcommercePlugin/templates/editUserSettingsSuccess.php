@@ -20,6 +20,12 @@
         <?php echo render_field($form->repository, $resource) ?>
 
         <div class="form-item">
+            <?php echo $form->ecommerceMaster->renderError() ?>
+            <?php echo render_field($form->ecommerceMaster, $resource, array('onlyInput' => true)) ?>
+             Master admin
+        </div>
+
+        <div class="form-item">
             <?php echo $form->vacationEnabled->renderError() ?>
             <?php echo render_field($form->vacationEnabled, $resource, array('onlyInput' => true)) ?>
              Vacation enabled

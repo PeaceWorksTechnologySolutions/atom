@@ -89,6 +89,7 @@ CREATE TABLE `user_ecommerce_settings`
 	`repository_id` INTEGER,
 	`vacation_enabled` TINYINT default 0,
 	`vacation_message` TEXT,
+	`ecommerce_master` TINYINT default 0,
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`serial_number` INTEGER default 0 NOT NULL,
 	PRIMARY KEY (`id`),

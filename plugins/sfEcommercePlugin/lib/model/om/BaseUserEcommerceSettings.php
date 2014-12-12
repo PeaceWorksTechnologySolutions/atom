@@ -11,6 +11,7 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
     REPOSITORY_ID = 'user_ecommerce_settings.REPOSITORY_ID',
     VACATION_ENABLED = 'user_ecommerce_settings.VACATION_ENABLED',
     VACATION_MESSAGE = 'user_ecommerce_settings.VACATION_MESSAGE',
+    ECOMMERCE_MASTER = 'user_ecommerce_settings.ECOMMERCE_MASTER',
     ID = 'user_ecommerce_settings.ID',
     SERIAL_NUMBER = 'user_ecommerce_settings.SERIAL_NUMBER';
 
@@ -20,6 +21,7 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
     $criteria->addSelectColumn(QubitUserEcommerceSettings::REPOSITORY_ID);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::VACATION_ENABLED);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::VACATION_MESSAGE);
+    $criteria->addSelectColumn(QubitUserEcommerceSettings::ECOMMERCE_MASTER);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::ID);
     $criteria->addSelectColumn(QubitUserEcommerceSettings::SERIAL_NUMBER);
 
@@ -36,7 +38,7 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
   public static function getFromRow(array $row)
   {
     $keys = array();
-    $keys['id'] = $row[4];
+    $keys['id'] = $row[5];
 
     $key = serialize($keys);
     if (!isset(self::$userEcommerceSettingss[$key]))
@@ -345,6 +347,11 @@ abstract class BaseUserEcommerceSettings implements ArrayAccess
         if (array_key_exists($column->getPhpName(), $this->values))
         {
           $this->row[$offset] = $this->values[$column->getPhpName()];
+        }
+
+        if ($this->new && $column->isPrimaryKey())
+        {
+          $this->keys[$column->getPhpName()] = $this->values[$column->getPhpName()];
         }
 
         $offset++;

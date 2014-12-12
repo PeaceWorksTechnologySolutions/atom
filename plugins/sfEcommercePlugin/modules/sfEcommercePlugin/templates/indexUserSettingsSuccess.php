@@ -14,6 +14,8 @@
 
     <?php echo render_show(__('Repository'), $resource->userEcommerceSettingss[0]->repository) ?>
 
+    <?php echo render_show(__('Master Admin'), $resource->userEcommerceSettingss[0]->ecommerceMaster ? "Yes": "No" ) ?>
+
     <?php echo render_show(__('Vacation Enabled'), $resource->userEcommerceSettingss[0]->vacationEnabled ? "Yes" : "No") ?>
 
     <div class="field vacation_message">

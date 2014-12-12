@@ -418,4 +418,9 @@ EOF
     sort($subdivisions);
     return $subdivisions;
   }
+
+  public static function user_is_ecommerce_master($user)
+  {
+      return $user->userEcommerceSettingss[0]->ecommerceMaster();
+  }
 }

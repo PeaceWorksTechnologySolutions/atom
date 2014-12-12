@@ -86,6 +86,7 @@
         <li><?php echo link_to(__('Cancel changes'), '@homepage', array('title' => __('Cancel changes'), 'class' => 'c-btn')) ?></li>
         <li><input class="c-btn c-btn-submit" type="submit" name="process" value="<?php echo __('Process order') ?>"/></li>
         <? } else { ?>
+          <li><input class="c-btn c-btn-submit" type="submit" name="anonymize" onclick="return confirm('Are you sure you want to remove personal information?')" value="<?php echo __('Remove personal information') ?>"/></li>
           <li><?php echo link_to(__('Return to Orders'), array('module' => 'sfEcommercePlugin', 'action' => 'browseOrders'), array('title' => __('Return to Orders'), 'class' => 'c-btn')) ?></li>
         <? } ?>
       </ul>

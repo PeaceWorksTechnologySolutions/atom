@@ -56,6 +56,12 @@
           <?php echo __('Status') ?>
         </th>
         <th>
+          <?php echo __('Reference Codes') ?>
+        </th>
+        <th>
+          <?php echo __('Titles') ?>
+        </th>
+        <th>
           <?php echo __('Created') ?>
         </th>
         <th>
@@ -63,7 +69,13 @@
         </th>
       </tr>
     </thead><tbody>
-      <?php foreach ($pager->getResults() as $item): ?>
+      <?php 
+      
+        foreach ($pager->getResults() as $item): 
+            $sale_repos = sfEcommercePlugin::sale_resources_by_repository($item);
+            $resources = $sale_repos[$user_repo]['resources'];
+
+      ?>
         <tr>
           <td>
             <?php echo link_to($item->getId(), array('module' => 'sfEcommercePlugin', 'action' => 'viewOrder', 'id' => $item->getId())) ?>
@@ -73,6 +85,18 @@
           </td>
           <td>
               <?php echo $item->processingStatus ?>
+          </td>
+          <td>
+              <?php foreach ($resources as $index => $item) { 
+                  echo $item->referenceCode . "<br>";
+              }
+              ?>
+          </td>
+          <td>
+              <?php foreach ($resources as $index => $item) { 
+                  echo render_title($item->title) . "<br>";
+              }
+              ?>
           </td>
           <td>
             <?php echo format_date($item->createdAt, 'f') ?>

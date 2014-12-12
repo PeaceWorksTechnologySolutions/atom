@@ -31,9 +31,9 @@ class sfEcommercePluginViewOrderAction extends sfAction
 
     $repos = sfEcommercePlugin::sale_resources_by_repository($this->resource);
     $user_repo = $settings->repository->getId();
-    $this->resources = $repos[$settings->repository->getId()]['resources'];
-    $this->saleResources = $repos[$settings->repository->getId()]['saleResources'];
-    $current_repo = $repos[$settings->repository->getId()]['repository'];
+    $this->resources = $repos[$user_repo]['resources'];
+    $this->saleResources = $repos[$user_repo]['saleResources'];
+    $current_repo = $repos[$user_repo]['repository'];
 
     // check whether all resources have been processed (for this repository)
     $this->allResourcesProcessed = true;
@@ -48,6 +48,8 @@ class sfEcommercePluginViewOrderAction extends sfAction
     {
       $fields = $request->getPostParameters();
       sfContext::getInstance()->getLogger()->warning(print_r($fields, true));
+
+      // process order
       if (array_key_exists('process', $fields)) {
         sfContext::getInstance()->getLogger()->warning('processing!');
 
@@ -75,6 +77,19 @@ class sfEcommercePluginViewOrderAction extends sfAction
         $this->updateSaleStatus();
 
         $this->redirect(array('module' => 'sfEcommercePlugin', 'action' => 'browseOrders'));
+
+      // anonymize order
+      } else if (array_key_exists('anonymize', $fields)) {
+        $this->resource['firstName'] = 'anonymous';
+        $this->resource['lastName'] = '';
+        $this->resource['address1'] = '';
+        $this->resource['address2'] = '';
+        $this->resource['city'] = '';
+        $this->resource['province'] = '';
+        $this->resource['postalCode'] = '';
+        $this->resource['email'] = '';
+        $this->resource['phone'] = '';
+        $this->resource->save();
       }
     }
   }
@@ -123,6 +138,19 @@ class sfEcommercePluginViewOrderAction extends sfAction
       } else {
         $body .="\nPlease download and save a copy of your photos, since this link will remain valid for only 10 days after your order is fully processed.\n";
       }
+    }
+
+    $contact = $repository->getPrimaryContact();
+    $body .= "\n\n";
+    $body .= $repository->authorizedFormOfName . "\n";
+    if (!empty($contact->telephone)) {
+        $body .= 'Phone: ' . $contact->telephone . "\n";
+    }
+    if (!empty($contact->email)) {
+        $body .= 'Email: ' . $contact->email . "\n";
+    }
+    if (!empty($contact->website)) {
+        $body .= 'Web: ' . $contact->website . "\n";
     }
 
     $message = sfContext::getInstance()->getMailer()->compose(

@@ -35,6 +35,7 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
       'repository',
       'vacationEnabled',
       'vacationMessage',
+      'ecommerceMaster',
       );
 
   protected function earlyExecute()
@@ -77,6 +78,14 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
         }
         break;
 
+      case 'ecommerceMaster':
+        $this->form->setValidator($name, new sfValidatorBoolean());
+        $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
+        if ($this->resource->ecommerceMaster) {
+          $this->form->setDefault($name, true);
+        }
+        break;
+
       case 'vacationMessage':
         $this->form->setDefault('vacationMessage', $this->resource->vacationMessage);
         $this->form->setValidator('vacationMessage', new sfValidatorString);
@@ -104,6 +113,12 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
         }
         break;
 
+      case 'ecommerceMaster':
+        if ($this->form->getValue('ecommerceMaster') == 1) {
+          $this->resource->setEcommerceMaster(true);
+        }
+        break;
+
       default:
         return parent::processField($field);
     }
@@ -119,6 +134,7 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
       if ($this->form->isValid())
       {
         $this->resource->setVacationEnabled(false); // initialize to false.  processField may set to true. 
+        $this->resource->setEcommerceMaster(false); // initialize to false.  processField may set to true. 
         $this->processForm();
 
         $this->resource->setUser($this->user);
