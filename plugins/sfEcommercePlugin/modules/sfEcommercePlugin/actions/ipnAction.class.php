@@ -44,6 +44,12 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
     $fields = $request->getPostParameters();
     $this->logMessage(var_export($fields, true), 'notice');
 
+    // strip invoice prefix if present
+    $prefix = sfConfig::get("ecommerce_paypal_invoice_prefix");
+    if (strncmp($fields['invoice'], $prefix, strlen($prefix)) === 0) { 
+      $fields['invoice'] = substr($fields['invoice'], strlen($prefix));
+    }
+
     if (intval($fields['invoice']) != $this->resource->getId()) {
       $this->logMessage("invoice '" . $fields['invoice'] . "' does not match - aborting.", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);

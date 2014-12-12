@@ -26,7 +26,7 @@
       <input type="hidden" name="currency_code" value="CAD"/>
       <input type="hidden" name="lc" value="CA"/>
       <input type="hidden" name="no_shipping" value="1"/>
-      <input type="hidden" name="invoice" value="<?php echo $resource->getId() ?>"/>
+      <input type="hidden" name="invoice" value="<?php echo sfConfig::get("ecommerce_paypal_invoice_prefix"); echo $resource->getId() ?>"/>
 
 
       <input type="hidden" name="no_note" value="1"/>
