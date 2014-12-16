@@ -7,7 +7,7 @@
 <div class="page">
 
   <div>
-    <?php echo render_value($resource->getContent(array('cultureFallback' => true))) ?>
+    <?php echo $resource->getContent(array('cultureFallback' => true)) ?>
   </div>
 
 </div>

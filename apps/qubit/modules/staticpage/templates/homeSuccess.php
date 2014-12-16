@@ -27,7 +27,7 @@
 <?php end_slot() ?>
 
 <div class="page">
-  <?php echo render_value($resource->getContent(array('cultureFallback' => true))) ?>
+  <?php echo $resource->getContent(array('cultureFallback' => true)) ?>
 </div>
 
 <?php if (SecurityCheck::hasPermission($sf_user, array('module' => 'staticpage', 'action' => 'update'))): ?>
