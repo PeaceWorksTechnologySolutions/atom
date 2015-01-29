@@ -9,6 +9,6 @@ fieldset#checkoutInformation {
     padding-bottom: 1em;
 }
 
-.payment-info {
+.payment-info, .order-info {
   margin-top: 2em;
 }
