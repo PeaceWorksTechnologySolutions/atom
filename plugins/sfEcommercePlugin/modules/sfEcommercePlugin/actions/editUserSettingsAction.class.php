@@ -35,20 +35,22 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
       'repository',
       'vacationEnabled',
       'vacationMessage',
-      'ecommerceMaster',
       );
 
   protected function earlyExecute()
   {
     $this->form->getValidatorSchema()->setOption('allow_extra_fields', true);
 
+
     if (isset($this->getRoute()->resource))
     {
       $this->user = $this->getRoute()->resource;
+      $this->is_own_record = ($this->user->id == $this->context->user->getAttribute('user_id'));
       $this->resource = $this->user->userEcommerceSettingss[0];
     }
     if (!isset($this->resource)) {
       $this->resource = new QubitUserEcommerceSettings;
+      $this->is_own_record = FALSE;
     }
   }
 
@@ -57,6 +59,9 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
     switch ($name)
     {
       case 'repository':
+        if (!$this->context->user->isAdministrator()) {
+          return;
+        }
         $this->form->setDefault('repository', $this->resource['repositoryId']);
         $this->form->setValidator('repository', new sfValidatorString);
 
@@ -74,14 +79,6 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
         $this->form->setValidator($name, new sfValidatorBoolean());
         $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
         if ($this->resource->vacationEnabled) {
-          $this->form->setDefault($name, true);
-        }
-        break;
-
-      case 'ecommerceMaster':
-        $this->form->setValidator($name, new sfValidatorBoolean());
-        $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
-        if ($this->resource->ecommerceMaster) {
           $this->form->setDefault($name, true);
         }
         break;
@@ -104,18 +101,14 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
     {
 
       case 'repository':
-        $this->resource->setRepository(QubitRepository::getById($this->form->getValue('repository')));
+        if ($this->context->user->isAdministrator()) {
+          $this->resource->setRepository(QubitRepository::getById($this->form->getValue('repository')));
+        }
         break;
 
       case 'vacationEnabled':
         if ($this->form->getValue('vacationEnabled') == 1) {
           $this->resource->setVacationEnabled(true);
-        }
-        break;
-
-      case 'ecommerceMaster':
-        if ($this->form->getValue('ecommerceMaster') == 1) {
-          $this->resource->setEcommerceMaster(true);
         }
         break;
 
@@ -134,7 +127,6 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
       if ($this->form->isValid())
       {
         $this->resource->setVacationEnabled(false); // initialize to false.  processField may set to true. 
-        $this->resource->setEcommerceMaster(false); // initialize to false.  processField may set to true. 
         $this->processForm();
 
         $this->resource->setUser($this->user);

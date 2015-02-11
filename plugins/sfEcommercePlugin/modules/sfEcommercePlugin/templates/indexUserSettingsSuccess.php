@@ -14,8 +14,6 @@
 
     <?php echo render_show(__('Repository'), $resource->userEcommerceSettingss[0]->repository) ?>
 
-    <?php echo render_show(__('Master Admin'), $resource->userEcommerceSettingss[0]->ecommerceMaster ? "Yes": "No" ) ?>
-
     <?php echo render_show(__('Vacation Enabled'), $resource->userEcommerceSettingss[0]->vacationEnabled ? "Yes" : "No") ?>
 
     <div class="field vacation_message">
@@ -33,7 +31,7 @@
 
   <ul>
 
-    <?php if (QubitAcl::check($resource, 'update')): ?>
+    <?php if (QubitAcl::check($resource, 'update') || $is_own_record): ?>
       <li><?php echo link_to (__('Edit'), array($resource, 'module' => 'sfEcommercePlugin', 'action' => str_replace('index', 'edit', $sf_context->getActionName())), array('class' => 'c-btn')) ?></li>
     <?php endif; ?>
   </ul>

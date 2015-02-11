@@ -22,5 +22,17 @@ class sfEcommercePluginIndexUserSettingsAction extends sfAction
   public function execute($request)
   {
     $this->resource = $this->getRoute()->resource;
+
+    $this->is_own_record = ($this->resource->id == $this->context->user->getAttribute('user_id'));
+
+    // Except for administrators, only allow users to see their own profile
+    if (!$this->context->user->isAdministrator())
+    {
+      if (!$this->is_own_record)
+      {
+        $this->redirect('admin/secure');
+      }
+    }
   }
+
 }

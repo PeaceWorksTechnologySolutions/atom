@@ -17,13 +17,11 @@
 
       <fieldset id="userEcommerceSettings">
 
-        <?php echo render_field($form->repository, $resource) ?>
-
-        <div class="form-item">
-            <?php echo $form->ecommerceMaster->renderError() ?>
-            <?php echo render_field($form->ecommerceMaster, $resource, array('onlyInput' => true)) ?>
-             Master admin
-        </div>
+        <?php 
+            if ($this->context->user->isAdministrator()) {
+              echo render_field($form->repository, $resource) ;
+            }
+        ?>
 
         <div class="form-item">
             <?php echo $form->vacationEnabled->renderError() ?>
@@ -39,7 +37,7 @@
 
     <section class="actions">
       <ul>
-        <li><?php echo link_to(__('Cancel'), array($resource, 'module' => 'sfEcommercePlugin', 'action' => 'indexUserSettings'), array('class' => 'c-btn')) ?></li>
+        <li><?php echo link_to(__('Cancel'), array('module' => 'sfEcommercePlugin', 'action' => 'indexUserSettings', 'slug' => $resource->user->slug), array('class' => 'c-btn')) ?></li>
         <li><input class="c-btn c-btn-submit" type="submit" value="<?php echo __('Save') ?>"/></li>
       </ul>
     </section>
