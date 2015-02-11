@@ -48,6 +48,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       'email2',
       'phone',
       'non_commercial',
+      'mayContact',
       );
 
   protected function earlyExecute()
@@ -124,6 +125,12 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
         $this->form->setDefault($name, false);
         break;
 
+      case 'mayContact':
+        $this->form->setValidator($name, new sfValidatorBoolean);
+        $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
+        $this->form->setDefault($name, false);
+        break;
+
       default:
 
         return parent::addField($name);
@@ -135,7 +142,6 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
     switch ($field->getName())
     {
       case 'non_commercial':
-        sfContext::getInstance()->getLogger()->warning('processField!');
         sfContext::getInstance()->getLogger()->warning($this->form->getValue('non_commercial'));
 
       default:

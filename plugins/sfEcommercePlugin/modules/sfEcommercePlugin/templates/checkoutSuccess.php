@@ -47,6 +47,12 @@
              I will only use these photos for non-commercial purposes.
         </div>
 
+        <div class="form-item may_contact">
+            <?php echo $form->mayContact->renderError() ?>
+            <?php echo render_field($form->mayContact, $resource, array('onlyInput' => true)) ?>
+             I would like to receive updates about this website.
+        </div>
+
       <div class="form-item order-info">After placing your order, it will be processed by the Archive(s) involved.  Then you will receive an email allowing you to download the photos.</div>
 
       <div class="form-item payment-info">Payment will take place via PayPal.  You do <b>not</b> have to have a PayPal account -- simply choose "Don't have a PayPal account".</div>

@@ -19,6 +19,7 @@ propel:
     transaction_id: varchar(50)
     transaction_fee: varchar(20)
     transaction_date: varchar(50)
+    may_contact: { type: boolean, default: false }
     created_at:
     updated_at:
     last_processed_at: timestamp

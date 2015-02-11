@@ -4,6 +4,10 @@ div.form-item {
     width: 400px;
 }
 
+div.may_contact {
+    margin-top: 1em;
+}
+
 fieldset#checkoutInformation {
     padding-top: 1em;
     padding-bottom: 1em;

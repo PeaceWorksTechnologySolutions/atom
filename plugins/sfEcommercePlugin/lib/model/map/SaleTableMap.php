@@ -53,6 +53,7 @@ class SaleTableMap extends TableMap {
 		$this->addColumn('TRANSACTION_ID', 'transactionId', 'VARCHAR', false, 50, null);
 		$this->addColumn('TRANSACTION_FEE', 'transactionFee', 'VARCHAR', false, 20, null);
 		$this->addColumn('TRANSACTION_DATE', 'transactionDate', 'VARCHAR', false, 50, null);
+		$this->addColumn('MAY_CONTACT', 'mayContact', 'BOOLEAN', false, null, false);
 		$this->addColumn('CREATED_AT', 'createdAt', 'TIMESTAMP', true, null, null);
 		$this->addColumn('UPDATED_AT', 'updatedAt', 'TIMESTAMP', true, null, null);
 		$this->addColumn('LAST_PROCESSED_AT', 'lastProcessedAt', 'TIMESTAMP', false, null, null);

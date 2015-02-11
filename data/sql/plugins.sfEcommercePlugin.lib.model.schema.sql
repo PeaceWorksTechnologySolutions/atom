@@ -29,6 +29,7 @@ CREATE TABLE `sale`
 	`transaction_id` VARCHAR(50),
 	`transaction_fee` VARCHAR(20),
 	`transaction_date` VARCHAR(50),
+	`may_contact` TINYINT default 0,
 	`created_at` DATETIME  NOT NULL,
 	`updated_at` DATETIME  NOT NULL,
 	`last_processed_at` DATETIME,
