@@ -87,14 +87,14 @@
               <?php echo $item->processingStatus ?>
           </td>
           <td>
-              <?php foreach ($resources as $index => $item) { 
-                  echo $item->referenceCode . "<br>";
+              <?php foreach ($resources as $index => $photo) { 
+                  echo $photo->referenceCode . "<br>";
               }
               ?>
           </td>
           <td>
-              <?php foreach ($resources as $index => $item) { 
-                  echo render_title($item->title) . "<br>";
+              <?php foreach ($resources as $index => $photo) { 
+                  echo render_title($photo->title) . "<br>";
               }
               ?>
           </td>

@@ -76,7 +76,8 @@ div.space_before {
   padding-top: 1em;
 }
 
-div#customerInformation {
+div#customerInformation,
+div#orderInformation {
   margin: 1em 1em 1em 1em;
 }
 

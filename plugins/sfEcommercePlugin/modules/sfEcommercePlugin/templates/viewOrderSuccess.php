@@ -27,10 +27,21 @@
 
           <div class="field space_before"><?php echo $resource->email ?></div>
           <div class="field"><?php echo $resource->phone ?></div>
-
           
         </div>
 
+      </fieldset>
+
+      <fieldset id="orderInformation">
+        <legend><?php echo __('Order Information') ?></legend>
+        <div id="orderInformation">
+          <div class="field">
+            <table>
+              <tr><td>Created:</td><td><?php echo $resource->createdAt ?></td></tr>
+              <tr><td>Updated:</td><td><?php echo $resource->updatedAt ?></td></tr>
+            </table>
+          </div>
+        </div>
       </fieldset>
 
       <fieldset id="orderPhotos">
