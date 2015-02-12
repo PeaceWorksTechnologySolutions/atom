@@ -131,12 +131,14 @@ class sfEcommercePluginViewOrderAction extends sfAction
       if (count($rejected_resources) > 0) {
         $body .= "\nYou may download the other photos in your order here:\n";
       } else {
-        $body .= "\nYou may download the photos here:\n";
+        $body .= "\nYou may download the photos here:\n\n";
       }
-      $body .= $this->getController()->genUrl(array('module' => 'sfEcommercePlugin', 'action' => 'download', 'id' => $this->resource->getId(), 'hash' => $this->resource->hash()), true);
+      $url = $this->getController()->genUrl(array('module' => 'sfEcommercePlugin', 'action' => 'download', 'id' => $this->resource->getId(), 'hash' => $this->resource->hash()), true);
+      $url = str_replace('https', 'http', $url);
+      $body .= $url;
 
       if ($this->resource->allResourcesProcessed()) {
-        $body .="\nPlease download and save a copy of your photos, since this link will remain valid for only 10 days.\n";
+        $body .="\n\nPlease download and save a copy of your photos, since this link will remain valid for only 10 days.\n";
       } else {
         $body .="\nPlease download and save a copy of your photos, since this link will remain valid for only 10 days after your order is fully processed.\n";
       }
