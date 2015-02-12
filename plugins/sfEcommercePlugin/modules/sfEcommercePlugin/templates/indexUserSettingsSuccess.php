@@ -12,7 +12,8 @@
 
     <?php echo render_show(__('User name'), $resource->username.($sf_user->user === $resource ? ' ('.__('you').')' : '')) ?>
 
-    <?php echo render_show(__('Repository'), $resource->userEcommerceSettingss[0]->repository) ?>
+    <?php $repo = $resource->userEcommerceSettingss[0]->repository; 
+          echo render_show(__('Repository'), $repo ? $repo : "None (user has access to ecommerce management)") ?>
 
     <?php echo render_show(__('Vacation Enabled'), $resource->userEcommerceSettingss[0]->vacationEnabled ? "Yes" : "No") ?>
 

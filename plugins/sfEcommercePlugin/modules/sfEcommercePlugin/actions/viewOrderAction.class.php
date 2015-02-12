@@ -21,13 +21,15 @@ class sfEcommercePluginViewOrderAction extends sfAction
 {
   public function execute($request)
   {
+
+    $settings = sfEcommercePlugin::user_get_ecommerce_settings($this->getUser()->user);
+    if (!$settings || !($settings->repository)) {
+        $this->redirect('admin/secure');
+    }
+
     $criteria = new Criteria;
     $criteria->add(QubitObject::ID, $request->getParameter('id'));
     $this->resource = QubitObject::get($criteria)->__get(0);
-
-    $criteria = new Criteria;
-    $criteria->add(QubitUserEcommerceSettings::USER_ID, $this->getUser()->user->getId());
-    $settings = QubitUserEcommerceSettings::get($criteria)->__get(0);
 
     $repos = sfEcommercePlugin::sale_resources_by_repository($this->resource);
     $user_repo = $settings->repository->getId();

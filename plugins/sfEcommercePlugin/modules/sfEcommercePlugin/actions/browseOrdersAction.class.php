@@ -31,9 +31,10 @@ class sfEcommercePluginBrowseOrdersAction extends sfAction
       $request->sort = sfConfig::get('app_sort_browser_user');
     }
 
-    $criteria = new Criteria;
-    $criteria->add(QubitUserEcommerceSettings::USER_ID, $this->getUser()->user->getId());
-    $settings = QubitUserEcommerceSettings::get($criteria)->__get(0);
+    $settings = sfEcommercePlugin::user_get_ecommerce_settings($this->getUser()->user);
+    if (!$settings || !($settings->repository)) {
+        $this->redirect('admin/secure');
+    }
     $this->user_repo = $settings->repository->getId();
 
     $criteria = new Criteria;

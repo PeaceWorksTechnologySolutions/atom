@@ -21,6 +21,11 @@ class sfEcommercePluginSalesReportAction extends sfAction
 {
   public function execute($request)
   {
+    $settings = sfEcommercePlugin::user_get_ecommerce_settings($this->getUser()->user);
+    if (!$settings || !($settings->repository)) {
+        $this->redirect('admin/secure');
+    }
+
     if (!isset($request->limit))
     {
       $request->limit = 10000; // we want to show all records on one page, for easy printing.
@@ -44,9 +49,7 @@ class sfEcommercePluginSalesReportAction extends sfAction
 
   public function build_criteria($request)
   {
-    $criteria = new Criteria;
-    $criteria->add(QubitUserEcommerceSettings::USER_ID, $this->getUser()->user->getId());
-    $settings = QubitUserEcommerceSettings::get($criteria)->__get(0);
+    $settings = sfEcommercePlugin::user_get_ecommerce_settings($this->getUser()->user);
     $this->user_repo = $settings->repository->getId();
 
     $criteria = new Criteria;

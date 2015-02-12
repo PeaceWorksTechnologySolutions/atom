@@ -419,4 +419,9 @@ EOF
     return $subdivisions;
   }
 
+  public static function user_get_ecommerce_settings($user) {
+    $criteria = new Criteria;
+    $criteria->add(QubitUserEcommerceSettings::USER_ID, $user->getId());
+    return QubitUserEcommerceSettings::getOne($criteria);
+  }
 }

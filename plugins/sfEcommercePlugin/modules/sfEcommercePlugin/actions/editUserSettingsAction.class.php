@@ -52,6 +52,12 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
       $this->resource = new QubitUserEcommerceSettings;
       $this->is_own_record = FALSE;
     }
+
+    if (!$this->context->user->isAdministrator()) {
+      if (!$this->is_own_record) {
+        $this->redirect('admin/secure');
+      }
+    }
   }
 
   protected function addField($name)
@@ -66,6 +72,7 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
         $this->form->setValidator('repository', new sfValidatorString);
 
         $choices = array();
+        $choices[0] = 'None (disable access to ecommerce management)';
         foreach (QubitRepository::getAll() as $item)
         {
           $choices[$item->getId()] = $item->__toString();
@@ -102,7 +109,13 @@ class sfEcommercePluginEditUserSettingsAction extends DefaultEditAction
 
       case 'repository':
         if ($this->context->user->isAdministrator()) {
-          $this->resource->setRepository(QubitRepository::getById($this->form->getValue('repository')));
+          $repo_id = intval($this->form->getValue('repository'));
+          $this->logMessage(var_export($repo_id, true), 'notice');
+          if ($repo_id != 0) {
+            $this->resource->setRepository(QubitRepository::getById($repo_id));
+          } else {
+            unset($this->resource->repository);
+          }
         }
         break;
 
