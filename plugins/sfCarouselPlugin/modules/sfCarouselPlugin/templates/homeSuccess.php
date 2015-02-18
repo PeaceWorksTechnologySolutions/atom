@@ -5,6 +5,9 @@
       <div id="carousel_left_arrow">
         <img style="height: 100px" src="/plugins/sfCarouselPlugin/images/left_arrow.png">
       </div>
+      <div id="carousel_right_arrow">
+        <img style="height: 100px" src="/plugins/sfCarouselPlugin/images/right_arrow.png">
+      </div>
       <div id="carousel">
       <?php foreach ($results as $hit): ?>
         <?php $doc = $hit->getData() ?>
@@ -19,9 +22,6 @@
               <p class="description"><?php echo get_search_i18n($doc, 'title') ?></p>
         </div>
       <?php endforeach; ?>
-      </div>
-      <div id="carousel_right_arrow">
-        <img style="height: 100px" src="/plugins/sfCarouselPlugin/images/right_arrow.png">
       </div>
       <div id="carousel_slides">
       </div>

@@ -14,6 +14,11 @@ div#main-column h1 {
 
 div.carousel_item {
     float: left;
+    padding-right: 10px;
+}
+
+div.carousel_item p.description {
+    text-align: center;
 }
 
 div.carousel_item .carousel_image_container {
@@ -21,14 +26,38 @@ div.carousel_item .carousel_image_container {
     overflow: hidden;
 }
 
+div#carousel_left_arrow,
+div#carousel_right_arrow {
+    width: 7%;
+    padding-top: 25px;
+}
+
 div#carousel_left_arrow {
-    position: absolute;
-    top: 48px;
-    left: -50px;
+    float: left;
 }
 
 div#carousel_right_arrow {
-    position: absolute;
-    top: 48px;
-    right: -40px;
+    float: right;
+    text-align: right;
+}
+
+
+@media only screen 
+and (max-width: 900px)
+{
+div#carousel_left_arrow,
+div#carousel_right_arrow {
+    padding-top: 5px;
+}
+
+}
+
+@media only screen 
+and (max-width: 700px)
+{
+div#carousel_left_arrow,
+div#carousel_right_arrow {
+    padding-top: 0px;
+}
+
 }

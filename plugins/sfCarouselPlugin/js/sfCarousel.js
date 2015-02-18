@@ -7,7 +7,7 @@
                     $('#carousel').carouFredSel({
                         responsive: true,
                         auto                : 7000,
-                        width: '100%',
+                        width: '86%',
                         height:         250,
                         items: {
                             visible: 3,
