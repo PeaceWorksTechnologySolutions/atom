@@ -143,12 +143,15 @@ EOF
       foreach($on_vacation as $repoid) {
         $repo = $repos[$repoid]['repository'];
         $reponame = strtoupper($repo->authorizedFormOfName);
-        $body = "This email is in regard to your order from $site_title,";
+        $body = "This email is in regard to your order from $site_title, ";
         $body .= "which includes photos from $reponame.\n\n";
 
         $user_settings_query = $repo->userEcommerceSettingss;
         foreach ($user_settings_query as $user_settings) {
-          $body .= $user_settings->vacationMessage;
+          if ($user_settings->vacationMessage) {
+            $body .= $user_settings->vacationMessage;
+            break;
+          }
         }
 
         $message = sfContext::getInstance()->getMailer()->compose(
