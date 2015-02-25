@@ -16,3 +16,9 @@ fieldset#checkoutInformation {
 .payment-info, .order-info {
   margin-top: 2em;
 }
+
+div.ecommerce-terms {
+  border: 2px solid #e5e5e5; 
+  padding: .5em;
+  margin-bottom: .5em;
+}

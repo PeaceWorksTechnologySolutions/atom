@@ -47,7 +47,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
       'email',
       'email2',
       'phone',
-      'non_commercial',
+      'terms',
       'mayContact',
       );
 
@@ -119,8 +119,8 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
         $this->form->setWidget('province', new sfWidgetFormSelect(array('choices' => $choices, 'multiple' => false)));
         break;
 
-      case 'non_commercial':
-        $this->form->setValidator($name, new sfValidatorBoolean(array('required' => true), array('required' => $this->context->i18n->__('This system only allows purchase of photos for non-commercial use.  If you require photos for commercial use, please contact the archives directly.'))));
+      case 'terms':
+        $this->form->setValidator($name, new sfValidatorBoolean(array('required' => true), array('required' => $this->context->i18n->__('You must agree to the terms in order to proceed with your order.'))));
         $this->form->setWidget($name, new sfWidgetFormInputCheckbox);
         $this->form->setDefault($name, false);
         break;
@@ -141,8 +141,8 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
   {
     switch ($field->getName())
     {
-      case 'non_commercial':
-        sfContext::getInstance()->getLogger()->warning($this->form->getValue('non_commercial'));
+      case 'terms':
+        sfContext::getInstance()->getLogger()->warning($this->form->getValue('terms'));
 
       default:
         return parent::processField($field);
@@ -208,7 +208,7 @@ class sfEcommercePluginCheckoutAction extends DefaultEditAction
                 'email' => 'jason@peaceworks.ca',
                 'email2' => 'jason@peaceworks.ca',
                 'phone' => '204 775 1212',
-                'non_commercial' => true,
+                'terms' => true,
             ));
         }
     }

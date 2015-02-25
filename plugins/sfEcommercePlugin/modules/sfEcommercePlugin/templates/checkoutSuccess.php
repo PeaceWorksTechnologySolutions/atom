@@ -42,9 +42,17 @@
 
 
         <div class="form-item">
-            <?php echo $form->non_commercial->renderError() ?>
-            <?php echo render_field($form->non_commercial, $resource, array('onlyInput' => true)) ?>
-             I will only use these photos for non-commercial purposes.
+
+            <?php echo $form->terms->renderError() ?>
+            <div class="ecommerce-terms">
+                <p>I agree to use this copy only for non-commercial purposes as outlined <a href="/order" target="_blank">here</a>. I am aware that any other use may require permission from the copyright owner, and that it is my responsibility to obtain this permission.</p>
+
+               <p>If I want to use this copy for any other use, I will contact the archives that supplied the photograph for more information. </p>
+             </div>
+
+            <?php echo render_field($form->terms, $resource, array('onlyInput' => true)) ?>
+              Yes, I accept these terms
+
         </div>
 
         <div class="form-item may_contact">
