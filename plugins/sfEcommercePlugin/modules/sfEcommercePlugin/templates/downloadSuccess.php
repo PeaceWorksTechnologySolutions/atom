@@ -17,7 +17,7 @@
         <legend></legend>
 
         <? if (count($resources) > 0) { ?>
-        <div class="download_all"><?php echo link_to('Download All Images (as ZIP)', array($resource, 'module' => 'sfEcommercePlugin', 'action' => 'download', 'id' => $resource->getId(), 'zip' => '1', 'hash' => $hash)) ?>
+        <div class="download_all"><?php echo link_to('Download All Images (as ZIP)', array('module' => 'sfEcommercePlugin', 'action' => 'download', 'id' => $resource->getId(), 'zip' => '1', 'hash' => $hash)) ?>
         </div>
         <? } ?>
 
@@ -34,7 +34,7 @@
                     <?php echo $item->referenceCode; ?>
                 </div>
                 <div class="cart_referenceCode">
-                    <?php echo link_to('Download Image', array($resource, 'module' => 'sfEcommercePlugin', 'action' => 'download', 'id' => $resource->getId(), 'photo' => $item->getId(), 'hash' => $hash)) ?>
+                    <?php echo link_to('Download Image', array('module' => 'sfEcommercePlugin', 'action' => 'download', 'id' => $resource->getId(), 'photo' => $item->getId(), 'hash' => $hash)) ?>
                 </div>
             </div>
         </div>
