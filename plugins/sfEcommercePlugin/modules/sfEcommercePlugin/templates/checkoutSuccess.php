@@ -43,25 +43,26 @@
 
         <div class="form-item">
 
-            <?php echo $form->terms->renderError() ?>
             <div class="ecommerce-terms">
                 <p>I agree to use this copy only for non-commercial purposes as outlined <a href="/order" target="_blank">here</a>. I am aware that any other use may require permission from the copyright owner, and that it is my responsibility to obtain this permission.</p>
 
                <p>If I want to use this copy for any other use, I will contact the archives that supplied the photograph for more information. </p>
-             </div>
 
+            <?php echo $form->terms->renderError() ?>
             <?php echo render_field($form->terms, $resource, array('onlyInput' => true)) ?>
               Yes, I accept these terms
+             </div>
+
 
         </div>
 
         <div class="form-item may_contact">
             <?php echo $form->mayContact->renderError() ?>
             <?php echo render_field($form->mayContact, $resource, array('onlyInput' => true)) ?>
-             I would like to receive updates about this website.
+             I would like to receive email updates about MAID news and events
         </div>
 
-      <div class="form-item order-info">After placing your order, it will be processed by the Archive(s) involved.  Then you will receive an email allowing you to download the photos.</div>
+      <div class="form-item order-info">Once your order is approved by the supplying archive(s), you will be sent an email with a link to download your photos. Please allow 2-3 business days for a response from the supplying archive(s).</div>
 
       <div class="form-item payment-info">Payment will take place via PayPal.  You do <b>not</b> have to have a PayPal account -- simply choose "Don't have a PayPal account".</div>
       <div class="form-item">
