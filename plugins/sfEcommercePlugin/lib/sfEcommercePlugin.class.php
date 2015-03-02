@@ -67,6 +67,7 @@ class sfEcommercePlugin
     $site_title = sfConfig::get('app_siteTitle');
     $purchaser = $sale->firstName . " " . $sale->lastName;
     $link = sfContext::getInstance()->getController()->genUrl(array('module' => 'sfEcommercePlugin', 'action' => 'viewOrder', 'id' => $sale->getId()), true);
+    $link = str_replace('https', 'http', $link);
     $repos = sfEcommercePlugin::sale_resources_by_repository($sale);
     foreach ($repos as $repoid => $repo) {
       // get users for this respository
