@@ -19,7 +19,7 @@
             success: function(data)
               {
                   var province_field = $(event.target).closest('form').find('select[name="province"]');
-                  $(province).find('option:gt(0)').remove();
+                  $(province_field).find('option:gt(0)').remove();
                   for (var i=0; i < data.length; i+=1) {
                     $(province_field).append($("<option></option>").attr("value", data[i]).text(data[i]));
                   }
