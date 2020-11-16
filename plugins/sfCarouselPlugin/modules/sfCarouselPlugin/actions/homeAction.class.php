@@ -52,14 +52,7 @@ class SfCarouselPluginHomeAction extends DefaultBrowseAction
     $this->query->setQuery($this->queryBool);
 
     // Filter drafts
-    $this->filterBool = new \Elastica\Filter\BoolFilter;
-    QubitAclSearch::filterDrafts($this->filterBool);
-
-    // Set filter
-    if (0 < count($this->filterBool->toArray()))
-    {
-      $this->query->setPostFilter($this->filterBool);
-    }
+    QubitAclSearch::filterDrafts($this->queryBool);
 
     $resultSet = QubitSearch::getInstance()->index->getType('QubitInformationObject')->search($this->query);
     $this->results = $resultSet->getResults();
