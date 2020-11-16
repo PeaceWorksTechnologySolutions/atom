@@ -1,5 +1,5 @@
 <div class="cart">
-<?php if (0 < count($resource->digitalObjects) ) { ?>
+<?php if (0 < count($resource->digitalObjectsRelatedByobjectId) ) { ?>
     <?php 
         $price = sfEcommercePlugin::resource_price($resource);
         if ($may_disseminate && isset($price)) { ?>

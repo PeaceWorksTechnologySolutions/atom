@@ -58,7 +58,7 @@ class sfEcommercePluginDownloadAction extends sfAction
     $criteria->add(QubitObject::ID, $resource_id);
     $photo = QubitObject::get($criteria)->__get(0);
 
-    $filepath = $photo->digitalObjects[0]->getAbsolutePath();
+    $filepath = $photo->digitalObjectsRelatedByobjectId[0]->getAbsolutePath();
     $file = basename($filepath);
     header('Content-Description: File Transfer');
     header("Content-type:  application/octet-stream");
@@ -77,7 +77,7 @@ class sfEcommercePluginDownloadAction extends sfAction
 
     // Stuff with content
     foreach ($this->resources as $photo) {
-      $filepath = $photo->digitalObjects[0]->getAbsolutePath();
+      $filepath = $photo->digitalObjectsRelatedByobjectId[0]->getAbsolutePath();
       $file = basename($filepath);
       $zip->addFile($filepath, $file);
     }

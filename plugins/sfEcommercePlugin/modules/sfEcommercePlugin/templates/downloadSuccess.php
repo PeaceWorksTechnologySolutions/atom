@@ -24,7 +24,7 @@
         <?php foreach ($resources as $item ) { ?>
         <div class="cart_item">
             <div class="cart_thumbnail">
-                <?php echo image_tag($item->digitalObjects[0]->thumbnail->getFullPath()); ?>
+                <?php echo image_tag($item->digitalObjectsRelatedByobjectId[0]->thumbnail->getFullPath()); ?>
             </div>
             <div class="cart_item_description">
                 <div class="cart_title cart_truncate">

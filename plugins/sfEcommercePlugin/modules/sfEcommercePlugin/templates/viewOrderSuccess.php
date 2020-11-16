@@ -51,7 +51,7 @@
         <?php foreach ($resources as $index => $item ) { ?>
         <div class="cart_item">
             <div class="cart_thumbnail">
-                <?php echo link_to(image_tag($item->digitalObjects[0]->thumbnail->getFullPath()), array('module' => 'informationobject', 'slug' => $item->slug)); ?>
+                <?php echo link_to(image_tag($item->digitalObjectsRelatedByobjectId[0]->thumbnail->getFullPath()), array('module' => 'informationobject', 'slug' => $item->slug)); ?>
             </div>
             <div class="cart_item_description">
                 <div class="cart_title cart_truncate">

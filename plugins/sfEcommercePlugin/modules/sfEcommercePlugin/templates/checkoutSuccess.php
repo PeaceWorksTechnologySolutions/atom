@@ -64,7 +64,7 @@
 
       <div class="form-item order-info">Once your order is approved by the supplying archive(s), you will be sent an email with a link to download your photos. Please allow 2-3 business days for a response from the supplying archive(s).</div>
 
-      <div class="form-item payment-info">Payment will take place via PayPal.  You do <b>not</b> have to have a PayPal account -- simply choose "Don't have a PayPal account".</div>
+      <div class="form-item payment-info">Payment will take place via PayPal.  You do <b>not</b> have to have a PayPal account -- simply choose "Pay with Debit or Credit Card".</div>
       <div class="form-item">
         <?php echo image_tag('/plugins/sfEcommercePlugin/images/mastercard.gif') ?>
         <?php echo image_tag('/plugins/sfEcommercePlugin/images/visa.gif') ?>
