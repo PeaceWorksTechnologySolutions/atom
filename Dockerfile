@@ -27,6 +27,7 @@ RUN set -xe \
       xsl \
       zip \
       ldap \
+      bcmath \
     && pecl install apcu pcov \
     && curl -Ls https://github.com/websupport-sk/pecl-memcache/archive/NON_BLOCKING_IO_php7.tar.gz | tar xz -C / \
     && cd /pecl-memcache-NON_BLOCKING_IO_php7 \
