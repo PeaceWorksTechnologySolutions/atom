@@ -30,7 +30,7 @@ class sfEcommercePaymentAction extends sfAction
       $my_sales = $this->getUser()->getAttribute('my_sales', NULL);
       if (!in_array($sale_id, $my_sales)) {
         $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-        throw new sfSecurityException;
+        return sfView::HEADER_ONLY;
       }
     }
 

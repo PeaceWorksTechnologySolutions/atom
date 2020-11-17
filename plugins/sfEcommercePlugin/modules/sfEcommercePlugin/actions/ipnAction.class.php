@@ -33,13 +33,13 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
     } else {
       $this->logMessage('ipn was not verified - got ' . $verification_response, 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
+      return sfView::HEADER_ONLY;
     }
 
     if (!$request->isMethod('post')) {
       $this->logMessage('ipn received - method was not post', 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
+      return sfView::HEADER_ONLY;
     }
     $fields = $request->getPostParameters();
     $this->logMessage(var_export($fields, true), 'notice');
@@ -53,19 +53,19 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
     if (intval($fields['invoice']) != $this->resource->getId()) {
       $this->logMessage("invoice '" . $fields['invoice'] . "' does not match - aborting.", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
+      return sfView::HEADER_ONLY;
     }
 
     if ($fields['business'] != sfConfig::get("ecommerce_paypal_email")) {
       $this->logMessage("Received IPN with incorrect business '" . $fields['business'] . "' - aborting.", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
+      return sfView::HEADER_ONLY;
     }
 
     if ($fields['mc_currency'] != 'CAD') {
       $this->logMessage("Received payment in currency " . $fields['mc_currency'] . " but expected CAD - aborting.'", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
+      return sfView::HEADER_ONLY;
     }
 
     if ($fields['payment_status'] == 'Completed') {
@@ -74,12 +74,12 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       if ($this->resource['processingStatus'] != 'pending_payment') {
         $this->logMessage("Received 'Completed' IPN for order which does not have status 'pending_payment'", 'notice');
         $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-        throw new sfSecurityException;
+        return sfView::HEADER_ONLY;
       }
       if (floatval($this->resource['totalAmount']) != floatval($fields['mc_gross'])) {
         $this->logMessage("Received " . floatval($fields['mc_gross']) . " but expected " . floatval($this->resource['totalAmount']) . " - aborting.'", 'notice');
         $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-        throw new sfSecurityException;
+        return sfView::HEADER_ONLY;
       }
 
       // process the payment
@@ -98,7 +98,7 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       if ($this->resource['transactionId'] != $fields['parent_txn_id']) {
         $this->logMessage("Received 'Refunded' IPN but txn_id does not match", 'notice');
         $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-        throw new sfSecurityException;
+        return sfView::HEADER_ONLY;
       }
       // mark the saleResources which have been successfully refunded.
       foreach ($this->resource->saleResources as $saleResource) {
@@ -125,7 +125,7 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
     } else {
       $this->logMessage("Received IPN with status '" . $fields['payment_status'] . "' which is not handled - aborting.", 'notice');
       $context = sfContext::getInstance()->getResponse()->setStatusCode(403);
-      throw new sfSecurityException;
+      return sfView::HEADER_ONLY;
     }
 
   }
