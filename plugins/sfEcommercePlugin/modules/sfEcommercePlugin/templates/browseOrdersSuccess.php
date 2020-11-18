@@ -29,11 +29,11 @@
         <?php } ?>
       </select></div>
       <div class="span6">
-        <?php echo get_partial('default/sortPicker',
-          array(
-            'options' => array(
-              'lastUpdated' => __('Most recent'),
-              ))) 
+        <?//php echo get_partial('default/sortPickers',
+          //array(
+            //'options' => array(
+             // 'lastUpdated' => __('Most recent'),
+             // ))) 
             ?>
       </div>
     </div>
