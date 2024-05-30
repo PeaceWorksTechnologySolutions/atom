@@ -18,9 +18,9 @@
  */
 
 /**
- * This class extends the save method in sfValidatedFile so the logo or banner
- * uploaded in repository/editThemeAction.class.php can be cropped to fit the
- * application requirements.
+ * This class extends the save method in sfValidatedFile so the logo, banner
+ * or watermark uploaded in repository/editThemeAction.class.php can be cropped to 
+ * fit the application requirements.
  */
 class arRepositoryThemeCropValidatedFile extends sfValidatedFile
 {
@@ -29,6 +29,8 @@ class arRepositoryThemeCropValidatedFile extends sfValidatedFile
     public const LOGO_MAX_HEIGHT = 270;
     public const BANNER_MAX_WIDTH = 800;
     public const BANNER_MAX_HEIGHT = 300;
+    public const WATERMARK_MAX_WIDTH = 400;
+    public const WATERMARK_MAX_HEIGHT = 400;
 
     public function save($file = null, $fileMode = 0666, $create = true, $dirMode = 0777)
     {
@@ -53,6 +55,12 @@ class arRepositoryThemeCropValidatedFile extends sfValidatedFile
             case 'banner':
                 $width = self::BANNER_MAX_WIDTH;
                 $height = self::BANNER_MAX_HEIGHT;
+
+                break;
+
+            case 'watermark':
+                $width = self::WATERMARK_MAX_WIDTH;
+                $height = self::WATERMARK_MAX_HEIGHT;
 
                 break;
         }

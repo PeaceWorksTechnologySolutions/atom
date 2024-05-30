@@ -1,3 +1,8 @@
+# This branch
+
+This branch contains an AtoM customization allowing per-repository watermarks
+uploadable via the UI. [Read details](README_watermarks.md).
+
 # [Access to Memory](https://www.accesstomemory.org)
 
 Developed and maintained by [Artefactual Systems](https://www.artefactual.com/)

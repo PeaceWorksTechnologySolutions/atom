@@ -522,4 +522,24 @@ class QubitRepository extends BaseRepository
             }
         }
     }
+
+    /**
+     * Get watermark image path within the repository uploads directory
+     *
+     * @return string
+     */
+    public function getWatermarkPath($absolute = false)
+    {
+        return $this->getUploadsPath($absolute).'/conf/watermark.png';
+    }
+
+    /**
+     * Check if the watermark asset exists
+     *
+     * @return boolean
+     */
+    public function existsWatermark()
+    {
+        return is_file($this->getWatermarkPath(true));
+    }
 }
