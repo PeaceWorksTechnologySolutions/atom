@@ -92,6 +92,16 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     {
     }
 
+    if ('informationObjects' == $name)
+    {
+      return true;
+    }
+
+    if ('repositoryI18ns' == $name)
+    {
+      return true;
+    }
+
     if ('saleResources' == $name)
     {
       return true;
@@ -103,16 +113,6 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     }
 
     if ('ecommerceTransactions' == $name)
-    {
-      return true;
-    }
-
-    if ('informationObjects' == $name)
-    {
-      return true;
-    }
-
-    if ('repositoryI18ns' == $name)
     {
       return true;
     }
@@ -149,6 +149,40 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     }
     catch (sfException $e)
     {
+    }
+
+    if ('informationObjects' == $name)
+    {
+      if (!isset($this->refFkValues['informationObjects']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['informationObjects'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['informationObjects'] = self::getinformationObjectsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['informationObjects'];
+    }
+
+    if ('repositoryI18ns' == $name)
+    {
+      if (!isset($this->refFkValues['repositoryI18ns']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['repositoryI18ns'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['repositoryI18ns'] = self::getrepositoryI18nsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['repositoryI18ns'];
     }
 
     if ('saleResources' == $name)
@@ -200,40 +234,6 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
       }
 
       return $this->refFkValues['ecommerceTransactions'];
-    }
-
-    if ('informationObjects' == $name)
-    {
-      if (!isset($this->refFkValues['informationObjects']))
-      {
-        if (!isset($this->id))
-        {
-          $this->refFkValues['informationObjects'] = QubitQuery::create();
-        }
-        else
-        {
-          $this->refFkValues['informationObjects'] = self::getinformationObjectsById($this->id, array('self' => $this) + $options);
-        }
-      }
-
-      return $this->refFkValues['informationObjects'];
-    }
-
-    if ('repositoryI18ns' == $name)
-    {
-      if (!isset($this->refFkValues['repositoryI18ns']))
-      {
-        if (!isset($this->id))
-        {
-          $this->refFkValues['repositoryI18ns'] = QubitQuery::create();
-        }
-        else
-        {
-          $this->refFkValues['repositoryI18ns'] = self::getrepositoryI18nsById($this->id, array('self' => $this) + $options);
-        }
-      }
-
-      return $this->refFkValues['repositoryI18ns'];
     }
 
     try
@@ -324,6 +324,46 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
     return $criteria;
   }
 
+  public static function addinformationObjectsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitInformationObject::REPOSITORY_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getinformationObjectsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addinformationObjectsCriteriaById($criteria, $id);
+
+    return QubitInformationObject::get($criteria, $options);
+  }
+
+  public function addinformationObjectsCriteria(Criteria $criteria)
+  {
+    return self::addinformationObjectsCriteriaById($criteria, $this->id);
+  }
+
+  public static function addrepositoryI18nsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitRepositoryI18n::ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getrepositoryI18nsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addrepositoryI18nsCriteriaById($criteria, $id);
+
+    return QubitRepositoryI18n::get($criteria, $options);
+  }
+
+  public function addrepositoryI18nsCriteria(Criteria $criteria)
+  {
+    return self::addrepositoryI18nsCriteriaById($criteria, $this->id);
+  }
+
   public static function addsaleResourcesCriteriaById(Criteria $criteria, $id)
   {
     $criteria->add(QubitSaleResource::REPOSITORY_ID, $id);
@@ -382,46 +422,6 @@ abstract class BaseRepository extends QubitActor implements ArrayAccess
   public function addecommerceTransactionsCriteria(Criteria $criteria)
   {
     return self::addecommerceTransactionsCriteriaById($criteria, $this->id);
-  }
-
-  public static function addinformationObjectsCriteriaById(Criteria $criteria, $id)
-  {
-    $criteria->add(QubitInformationObject::REPOSITORY_ID, $id);
-
-    return $criteria;
-  }
-
-  public static function getinformationObjectsById($id, array $options = array())
-  {
-    $criteria = new Criteria;
-    self::addinformationObjectsCriteriaById($criteria, $id);
-
-    return QubitInformationObject::get($criteria, $options);
-  }
-
-  public function addinformationObjectsCriteria(Criteria $criteria)
-  {
-    return self::addinformationObjectsCriteriaById($criteria, $this->id);
-  }
-
-  public static function addrepositoryI18nsCriteriaById(Criteria $criteria, $id)
-  {
-    $criteria->add(QubitRepositoryI18n::ID, $id);
-
-    return $criteria;
-  }
-
-  public static function getrepositoryI18nsById($id, array $options = array())
-  {
-    $criteria = new Criteria;
-    self::addrepositoryI18nsCriteriaById($criteria, $id);
-
-    return QubitRepositoryI18n::get($criteria, $options);
-  }
-
-  public function addrepositoryI18nsCriteria(Criteria $criteria)
-  {
-    return self::addrepositoryI18nsCriteriaById($criteria, $this->id);
   }
 
   public function getCurrentrepositoryI18n(array $options = array())

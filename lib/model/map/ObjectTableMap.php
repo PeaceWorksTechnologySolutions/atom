@@ -78,6 +78,7 @@ class ObjectTableMap extends TableMap {
     $this->addRelation('status', 'status', RelationMap::ONE_TO_MANY, array('id' => 'object_id', ), 'CASCADE', null);
     $this->addRelation('taxonomy', 'taxonomy', RelationMap::ONE_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
     $this->addRelation('term', 'term', RelationMap::ONE_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
+    $this->addRelation('sale', 'sale', RelationMap::ONE_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
     $this->addRelation('aclPermission', 'aclPermission', RelationMap::ONE_TO_MANY, array('id' => 'object_id', ), 'CASCADE', null);
     $this->addRelation('accession', 'accession', RelationMap::ONE_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
     $this->addRelation('accessionEvent', 'accessionEvent', RelationMap::ONE_TO_ONE, array('id' => 'id', ), 'CASCADE', null);

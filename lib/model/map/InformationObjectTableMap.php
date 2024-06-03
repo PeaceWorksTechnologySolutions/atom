@@ -70,6 +70,7 @@ class InformationObjectTableMap extends TableMap {
     $this->addRelation('informationObjectRelatedByparentId', 'informationObject', RelationMap::ONE_TO_MANY, array('id' => 'parent_id', ), 'CASCADE', null);
     $this->addRelation('informationObjectI18n', 'informationObjectI18n', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', null);
     $this->addRelation('premisObject', 'premisObject', RelationMap::ONE_TO_MANY, array('id' => 'information_object_id', ), 'CASCADE', null);
+    $this->addRelation('saleResource', 'saleResource', RelationMap::ONE_TO_MANY, array('id' => 'resource_id', ), null, null);
 	} // buildRelations()
 
 } // InformationObjectTableMap
