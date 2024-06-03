@@ -51,28 +51,6 @@ class StaticPageIndexAction extends sfAction
             return $cache->get($cacheKey);
         }
 
-        $content = $this->resource->getContent(['cultureFallback' => true]);
-        $content = QubitHtmlPurifier::getInstance()->purify($content);
-
-        $cache->set($cacheKey, $content);
-
-        return $content;
-    }
-
-    protected function getPurifiedStaticPageContent()
-    {
-        $culture = sfContext::getInstance()->getUser()->getCulture();
-        $cacheKey = 'staticpage:'.$this->resource->id.':'.$culture;
-        $cache = QubitCache::getInstance();
-
-        if (null === $cache) {
-            return;
-        }
-
-        if ($cache->has($cacheKey)) {
-            return $cache->get($cacheKey);
-        }
-
         $content = $this->resource->getContent(array('cultureFallback' => true));
         // we're using tinymce, so we don't want to escape HTML tags.
         // this will need to be integrated differently if merged into main codebase - perhaps
