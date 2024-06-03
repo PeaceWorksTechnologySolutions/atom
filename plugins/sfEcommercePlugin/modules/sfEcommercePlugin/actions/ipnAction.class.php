@@ -82,6 +82,8 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
         return sfView::HEADER_ONLY;
       }
 
+      $this->logMessage("Processing payment", 'notice');
+
       // process the payment
       $this->resource['processingStatus'] = 'paid';
       $this->resource['transactionId'] = $fields['txn_id'];
@@ -89,8 +91,11 @@ class sfEcommercePluginIPNAction extends sfEcommercePaymentAction
       $this->resource['transactionDate'] = $fields['payment_date'];
       $this->resource['paidAt'] = date('Y-m-d H:i:s');
       $this->resource->save();
+      $this->logMessage("Recording purchase transactions", 'notice');
       sfEcommercePlugin::record_purchase_transactions($this->resource);
+      $this->logMessage("Notifying repositories", 'notice');
       sfEcommercePlugin::notify_repositories($this->resource);
+      $this->logMessage("Notifying customer", 'notice');
       sfEcommercePlugin::notify_customer($this->resource);
 
     } elseif ($fields['payment_status'] == 'Refunded') {
