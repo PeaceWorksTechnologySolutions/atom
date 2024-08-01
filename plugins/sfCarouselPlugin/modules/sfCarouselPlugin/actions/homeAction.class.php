@@ -26,11 +26,6 @@ class SfCarouselPluginHomeAction extends DefaultBrowseAction
     // Set up StaticPage
     // copied from StaticPageIndexAction (we inherit from DefaultBrowseAction instead).
     $this->resource = $this->getRoute()->resource;
-    if (1 > strlen($title = $this->resource->__toString()))
-    {
-      $title = $this->context->i18n->__('Untitled');
-    }
-    $this->response->setTitle("$title - {$this->response->getTitle()}");
     $this->content = $this->getStaticPageContent();
     
 
@@ -40,6 +35,8 @@ class SfCarouselPluginHomeAction extends DefaultBrowseAction
     $request->limit = 30;
 
     parent::execute($request);
+
+    $this->response->setTitle(sfConfig::get('app_siteTitle'));
 
     // Create query object
     $this->queryBool = new \Elastica\Query\BoolQuery;
