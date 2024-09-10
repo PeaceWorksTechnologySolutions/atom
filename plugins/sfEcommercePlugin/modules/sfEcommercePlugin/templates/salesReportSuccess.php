@@ -1,8 +1,11 @@
 <?php decorate_with('layout_1col') ?>
 <?php use_stylesheet('/plugins/sfEcommercePlugin/css/ecommerce.css'); ?>
 <?php use_stylesheet('/plugins/sfEcommercePlugin/css/print.css', '', array('media' => 'print')); ?>
-<?php use_javascript('/vendor/yui/calendar/calendar-min'); ?>
+<?php use_javascript('/vendor/jquery.js'); ?>
+<?php use_javascript('/vendor/meetselva/attrchange.js'); ?>
 <?php use_javascript('/js/date.js'); ?>
+<?php use_javascript('https://code.jquery.com/ui/1.12.1/jquery-ui.min.js'); ?>
+<?php use_stylesheet('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'); ?>
 <?php use_helper('Date') ?>
 
 <?php slot('title') ?>
@@ -11,6 +14,29 @@
     <?php if (!empty($start_date)) echo " from " . $start_date ?>
     <?php if (!empty($end_date)) echo " to " . $end_date ?>
   </h1>
+<script>
+  $(document).ready(function() {
+    var datepickerOptions = {
+      changeYear: true,
+      changeMonth: true,
+      yearRange: '-100:+100',
+      dateFormat: 'yy-mm-dd',
+      defaultDate: new Date(),
+      constrainInput: false,
+      beforeShow: function (input, instance) {
+        var top  = $(this).offset().top + $(this).outerHeight();
+        setTimeout(function() {
+          instance.dpDiv.css({
+            'top' : top,
+          });
+        }, 1);
+      }
+    };
+
+    $('#start_date').datepicker(datepickerOptions);
+    $('#end_date').datepicker(datepickerOptions);
+  });
+</script>
 <?php end_slot() ?>
 
 <?php slot('before-content') ?>
